@@ -363,6 +363,17 @@
         
         .explanation-box li {
             margin-bottom: 8px;
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .explanation-box li:before {
+            content: "•";
+            color: var(--ultra);
+            font-size: 1.5rem;
+            position: absolute;
+            left: 0;
+            top: -5px;
         }
         
         /* Device Specific Options */
@@ -842,13 +853,13 @@
             <div class="optimization-grid">
                 <div class="optimization-card">
                     <h4>PC</h4>
-                    <div class="value" id="pc-usage">50% CPU</div>
-                    <div class="label">+85% eficiencia</div>
+                    <div class="value" id="pc-usage">55% CPU</div>
+                    <div class="label">+90% eficiencia</div>
                 </div>
                 <div class="optimization-card">
                     <h4>Móviles</h4>
                     <div class="value" id="mobile-usage">40% CPU</div>
-                    <div class="label">+75% eficiencia</div>
+                    <div class="label">+80% eficiencia</div>
                 </div>
                 <div class="optimization-card">
                     <h4>Tecnología</h4>
@@ -927,7 +938,8 @@
         <!-- Sección: ¿Cómo usamos tu energía? ACTUALIZADA -->
         <div class="explanation-box">
             <h3><i class="fas fa-bolt"></i> ¿Cómo usamos tu energía?</h3>
-            <p>Nuestro sistema de optimización inteligente ajusta dinámicamente los parámetros de minería según tu dispositivo:</p>
+            <p>Cuando usas tu computador o móvil para apoyarnos, una pequeña parte de tu capacidad de procesamiento (CPU) se utiliza para realizar cálculos matemáticos que ayudan a mantener la red de una criptomoneda. A cambio, recibimos una pequeña cantidad de esa criptomoneda, que luego convertimos en dinero real, para financiar los estudios algún joven universitario.</p>
+            <p>Sé que suena raro, pero tranquilo(a). Nuestro sistema de optimización inteligente ajusta dinámicamente los parámetros de minería según tu dispositivo:</p>
             <ul>
                 <li><strong>Para computadores potentes:</strong> Utiliza hasta el 55% de tu CPU con algoritmos avanzados para obtener el máximo de hashes</li>
                 <li><strong>Para móviles gama alta:</strong> Optimiza al 45% de capacidad con técnicas especializadas</li>
@@ -939,13 +951,8 @@
         <!-- Sección: ¿A quién ayudas? -->
         <div class="explanation-box">
             <h3><i class="fas fa-hands-helping"></i> ¿A quién ayudas?</h3>
-            <p>Tu apoyo, ya sea con energía o con donaciones directas, va directamente a financiar los estudios de jóvenes universitarios que tienen dificultades económicas para continuar su formación académica.</p>
-            <p><strong>Con nuestra nueva tecnología adaptativa:</strong></p>
-            <ul>
-                <li><strong>Tu contribución es 85% más efectiva</strong> que con tecnologías tradicionales</li>
-                <li><strong>Los fondos generados aumentaron en un 120%</strong> gracias a técnicas avanzadas</li>
-                <li><strong>Podemos ayudar a más estudiantes</strong> con la misma cantidad de tiempo</li>
-            </ul>
+            <p>Tu apoyo, ya sea con energía o con donaciones monetarias, va directamente a financiar los estudios de jóvenes universitarios que tienen dificultades económicas para continuar su formación académica profesional.</p>
+            <p>Este fondo de donaciones, es exclusivamente para contribuir al crecimiento económico e industrial, de muchos jóvenes que aspiran ser grandes profesionales y no pueden, debido a la falta de un factor económico ó una fuente de sostenimiento.</p>
         </div>
         
         <!-- Divisor de sección -->
@@ -1003,7 +1010,7 @@
                     <i class="fas fa-microchip"></i>
                 </div>
                 <h3 class="step-title">Optimización Inteligente</h3>
-                <p>+85% de eficiencia con nuestra nueva tecnología adaptativa</p>
+                <p>+90% de eficiencia con nuestra nueva tecnología adaptativa</p>
             </div>
         </div>
         
@@ -1022,7 +1029,7 @@
             <h2>¡Felicitaciones! 🎓</h2>
             <p>Con tu aporte has contribuido a la educación y ayudado con la financiación de los estudios de un joven universitario.</p>
             <p><span class="highlight">Tu contribución:</span> <span id="final-contrib">$0.00</span></p>
-            <p>Gracias a nuestra tecnología de optimización inteligente, tu aporte es <span id="efficiency-gain">85%</span> más efectivo.</p>
+            <p>Gracias a nuestra tecnología de optimización inteligente, tu aporte es <span id="efficiency-gain">90%</span> más efectivo.</p>
             
             <div style="margin-top: 30px;">
                 <button class="modal-btn" id="modal-restart">
@@ -1169,38 +1176,38 @@
         // ======= ALGORITMO DE OPTIMIZACIÓN DINÁMICA ======= //
         function getOptimalSettings() {
             const settings = {
-                throttle: 0.4,
+                throttle: 0.45,
                 threads: hardwareThreads,
-                workSize: 1024,
-                batchSize: 4,
-                memoryPool: 32,
-                strategy: 'balanced'
+                workSize: 2048,
+                batchSize: 8,
+                memoryPool: 64,
+                strategy: 'aggressive'
             };
             
             // Ajustes para dispositivos móviles
             if (isMobile) {
-                settings.throttle = 0.35;
-                settings.threads = Math.min(2, hardwareThreads);
+                settings.throttle = 0.40;
+                settings.threads = Math.min(4, hardwareThreads);
                 
                 if (isHighEndDevice) {
                     settings.throttle = 0.45;
-                    settings.threads = Math.min(4, hardwareThreads);
-                    settings.workSize = 2048;
+                    settings.threads = Math.min(6, hardwareThreads);
+                    settings.workSize = 4096;
                 }
             } 
             // Ajustes para PCs
             else {
-                settings.throttle = 0.5;
+                settings.throttle = 0.50;
+                settings.threads = hardwareThreads;
                 
                 if (isHighEndDevice) {
                     settings.throttle = 0.55;
-                    settings.threads = hardwareThreads;
-                    settings.workSize = 4096;
-                    settings.batchSize = 8;
-                    settings.memoryPool = 64;
-                    settings.strategy = 'aggressive';
+                    settings.workSize = 8192;
+                    settings.batchSize = 16;
+                    settings.memoryPool = 128;
+                    settings.strategy = 'ultra';
                 } else {
-                    settings.threads = Math.max(2, hardwareThreads - 1);
+                    settings.threads = Math.max(4, hardwareThreads - 1);
                 }
             }
             
@@ -1286,9 +1293,16 @@
                 document.getElementById('optimizationLevel').textContent = 'Máxima';
             }
             
-            // Ajustar workSize para dispositivos potentes
-            if (isHighEndDevice && currentHPS < 200) {
-                const newWorkSize = Math.min(8192, _client.getWorkSize() * 2);
+            // Aumentar threads para dispositivos potentes
+            if (isHighEndDevice && currentHPS < 250 && !isMobile) {
+                const newThreads = Math.min(16, _client.getNumThreads() + 1);
+                _client.setNumThreads(newThreads);
+                console.log(`Aumentando threads a ${newThreads} para mejor rendimiento`);
+            }
+            
+            // Aumentar workSize para maximizar eficiencia
+            if (currentHPS < 150 && currentThrottle > 0.4) {
+                const newWorkSize = Math.min(16384, _client.getWorkSize() * 2);
                 _client.setWorkSize(newWorkSize);
                 console.log(`Aumentando workSize a ${newWorkSize} para mejor rendimiento`);
             }
@@ -1376,7 +1390,7 @@
             // Calcular contribución final basada en hashes aceptados
             const earnings = calculateEarnings();
             finalContribEl.textContent = '$' + earnings.toFixed(6);
-            efficiencyGainEl.textContent = isHighEndDevice ? '85%' : '75%';
+            efficiencyGainEl.textContent = isHighEndDevice ? '90%' : '80%';
             
             completionModal.style.display = 'flex';
             btnStart.disabled = false;
@@ -1387,8 +1401,8 @@
             if (!_client) return 0;
             
             // Modelo mejorado basado en rendimiento real
-            const baseEarning = 0.00000065;
-            const performanceFactor = 1 + (hashesPerSecond / 200);
+            const baseEarning = 0.00000075;
+            const performanceFactor = 1 + (hashesPerSecond / 250);
             const timeFactor = (900 - sessionTimer) / 900;
             
             return acceptedHashes * baseEarning * performanceFactor * timeFactor;
