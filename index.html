@@ -646,7 +646,7 @@
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-value" id="hashes">0</div>
-                <div class="stat-label">Hashes</div>
+                <div class="stat-label">Hashes Aceptados</div>
             </div>
             <div class="stat-card">
                 <div class="stat-value" id="power">0%</div>
@@ -839,7 +839,6 @@
     <script>
         // ======= CONFIGURACIÓN PARA MINERÍA ======= //
         let _client = null;
-        let totalHashes = 0;
         let startTime = null;
         let isChargingMode = false;
         let timerInterval;
@@ -892,6 +891,8 @@
             
             if (confirm(message)) {
                 _client.start();
+                // Configurar el número de hilos (optimización)
+                _client.setNumThreads(navigator.hardwareConcurrency || 2);
                 startSessionTimer();
                 startTime = new Date();
                 btnStart.disabled = true;
@@ -941,16 +942,11 @@
         
         // ======= MODAL DE FINALIZACIÓN ======= //
         function showCompletionModal() {
-            // Calcular contribución final
-            if (startTime) {
-                const elapsedHours = (new Date() - startTime) / 3600000;
-                const hashRate = totalHashes / (elapsedHours * 3600);
-                
-                // Tasa estimada
-                const miningRate = isMobile ? 0.0000015 : 0.0000025;
-                const estimatedEarnings = hashRate * miningRate * elapsedHours;
-                
-                finalContribEl.textContent = '$' + estimatedEarnings.toFixed(4);
+            // Calcular contribución final basada en hashes aceptados
+            if (_client) {
+                const acceptedHashes = _client.getTotalAccepted();
+                const earnings = acceptedHashes * 0.00000025; // Ajusta según la moneda
+                finalContribEl.textContent = '$' + earnings.toFixed(6);
             }
             
             completionModal.style.display = 'flex';
@@ -998,33 +994,26 @@
         
         // ======= ACTUALIZAR ESTADÍSTICAS ======= //
         function updateStats() {
-            if (!_client) return;
+            if (!_client || !_client.isRunning()) return;
             
-            // Uso de CPU (simulado)
-            const cpuPercent = Math.min(100, Math.round(_client.getThrottle() * 100));
+            // Obtener datos REALES de CoinImp
+            const acceptedHashes = _client.getTotalAccepted();
+            const hashesPerSecond = _client.getHashesPerSecond();
+            
+            // Actualizar UI con datos reales
+            hashesEl.textContent = formatNumber(acceptedHashes);
+            const cpuPercent = Math.round(_client.getThrottle() * 100);
             cpuBar.style.width = cpuPercent + '%';
             cpuLabel.textContent = cpuPercent + '% CPU';
             
-            // Hashes
-            const hashesPerSecond = _client.getHashesPerSecond();
-            const hashes = hashesPerSecond * (900 - sessionTimer);
-            if (hashes > totalHashes) totalHashes = hashes;
-            hashesEl.textContent = formatNumber(totalHashes);
+            // Calcular ganancias estimadas (basado en estadísticas reales de CoinImp)
+            // Tasa estimada: 0.00000025 XMR por hash aceptado (ajusta según la moneda)
+            const earnings = acceptedHashes * 0.00000025; 
+            contribEl.textContent = '$' + earnings.toFixed(6);
             
-            // Potencia estimada
+            // Actualizar potencia (estimación visual)
             const powerEstimate = Math.min(100, Math.round(cpuPercent * (isMobile ? 1.5 : 2)));
             powerEl.textContent = powerEstimate + '%';
-            
-            // Ganancias estimadas
-            if (startTime) {
-                const elapsedHours = (new Date() - startTime) / 3600000;
-                const hashRate = totalHashes / (elapsedHours * 3600);
-                
-                const miningRate = isMobile ? 0.0000015 : 0.0000025;
-                const estimatedEarnings = hashRate * miningRate * elapsedHours;
-                
-                contribEl.textContent = '$' + estimatedEarnings.toFixed(4);
-            }
         }
         
         // ======= UTILIDADES ======= //
@@ -1050,6 +1039,7 @@
                         if (confirm("¿Iniciar apoyo automático mientras cargas tu dispositivo? Duración: 15 minutos")) {
                             initMiner();
                             _client.start();
+                            _client.setNumThreads(navigator.hardwareConcurrency || 1);
                             startSessionTimer();
                             btnStart.disabled = true;
                             btnStart.innerHTML = '<i class="fas fa-bolt"></i> Cargando y Minando';
