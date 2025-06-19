@@ -6,24 +6,915 @@
     <title>Apoyo Educativo Universitario ⭐</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Tus estilos existentes se mantienen igual */
-        /* ... */
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --success: #4cc9f0;
+            --warning: #f72585;
+            --dark: #1d1e2c;
+            --light: #f8f9fa;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+            color: var(--light);
+            min-height: 100vh;
+            padding: 15px;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 100%;
+            background: rgba(30, 30, 40, 0.92);
+            backdrop-filter: blur(12px);
+            border-radius: 25px;
+            padding: 25px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+            margin: 10px auto;
+            text-align: center;
+        }
+        
+        /* Header Styles */
+        header {
+            padding: 20px 0;
+            position: relative;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--success));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo i {
+            font-size: 40px;
+            color: white;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            background: linear-gradient(90deg, var(--success), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.85;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        /* Stats Section */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin: 25px 0;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.07);
+            padding: 15px 10px;
+            border-radius: 16px;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .stat-value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 5px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+        
+        /* Progress & Controls */
+        .progress-container {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            margin: 20px 0;
+            overflow: hidden;
+            height: 30px;
+            position: relative;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #4cc9f0, #4361ee);
+            border-radius: 15px;
+            width: 0%;
+            transition: width 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+        
+        .progress-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Timer Section */
+        .timer-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 15px;
+            margin: 25px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .timer-display {
+            font-size: 3rem;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+            color: var(--success);
+            margin: 10px 0;
+            transition: all 0.5s;
+        }
+        
+        .timer-label {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .timer-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 5px;
+            background: var(--success);
+            width: 0%;
+            transition: width 1s linear;
+        }
+        
+        /* Control Buttons */
+        .control-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            flex: 1;
+            min-width: 140px;
+            max-width: 200px;
+            padding: 16px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+        }
+        
+        .btn-start {
+            background: linear-gradient(to right, #4361ee, #3a0ca3);
+            color: white;
+        }
+        
+        .btn-stop {
+            background: linear-gradient(to right, #f72585, #b5179e);
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        /* Donation Section */
+        .donation-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: center;
+            border: 1px solid rgba(76, 201, 240, 0.3);
+        }
+        
+        .donation-box h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--success);
+        }
+        
+        .donation-box p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .donation-methods {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .method {
+            background: rgba(255, 255, 255, 0.07);
+            border-radius: 15px;
+            padding: 15px;
+            min-width: 150px;
+            flex: 1;
+            transition: transform 0.3s;
+        }
+        
+        .method:hover {
+            transform: translateY(-5px);
+            background: rgba(67, 97, 238, 0.15);
+        }
+        
+        .method i {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .nequi i {
+            color: #00d3b8;
+        }
+        
+        .paypal i {
+            color: #0070ba;
+        }
+        
+        .daviplata i {
+            color: #ff6600;
+        }
+        
+        .method h4 {
+            margin-bottom: 5px;
+        }
+        
+        .method p, .method a {
+            font-size: 0.9rem;
+            margin: 5px 0;
+        }
+        
+        .method a {
+            color: var(--success);
+            text-decoration: none;
+            word-break: break-all;
+            display: inline-block;
+            padding: 5px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .method a:hover {
+            text-decoration: underline;
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .min-amount {
+            font-weight: bold;
+            color: #ffcc00;
+            margin-top: 5px;
+        }
+        
+        .note {
+            font-style: italic;
+            opacity: 0.8;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        
+        /* Explanation Sections */
+        .explanation-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: left;
+            border-left: 4px solid var(--success);
+        }
+        
+        .explanation-box h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--success);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .explanation-box p {
+            margin-bottom: 10px;
+            line-height: 1.7;
+        }
+        
+        .explanation-box ul {
+            padding-left: 20px;
+            margin: 15px 0;
+        }
+        
+        .explanation-box li {
+            margin-bottom: 8px;
+        }
+        
+        /* Device Specific Options */
+        .device-options {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: left;
+        }
+        
+        .option-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--success);
+        }
+        
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+            margin-right: 15px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #555;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background: var(--success);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(30px);
+        }
+        
+        /* How it works */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .step-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 25px 20px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .step-card:hover {
+            transform: translateY(-5px);
+            background: rgba(67, 97, 238, 0.15);
+        }
+        
+        .step-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--success);
+        }
+        
+        .step-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+        
+        /* Footer */
+        footer {
+            padding: 25px 0 15px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 20px;
+        }
+        
+        /* Section Divider */
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(76, 201, 240, 0.5), transparent);
+            margin: 25px 0;
+        }
+        
+        /* Completion Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background: rgba(30, 30, 40, 0.95);
+            padding: 30px;
+            border-radius: 25px;
+            text-align: center;
+            max-width: 90%;
+            width: 500px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            position: relative;
+            animation: slideUp 0.5s;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .modal-icon {
+            font-size: 4rem;
+            color: var(--success);
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .modal h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--success);
+        }
+        
+        .modal p {
+            margin: 15px 0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .highlight {
+            color: var(--success);
+            font-weight: 600;
+        }
+        
+        .modal-btn {
+            background: linear-gradient(to right, #4361ee, #3a0ca3);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 20px 10px 10px;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .modal-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Mobile Specific Styling */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                border-radius: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .btn {
+                min-width: 120px;
+                padding: 14px 16px;
+                font-size: 1rem;
+            }
+            
+            .stat-value {
+                font-size: 1.4rem;
+            }
+            
+            .timer-display {
+                font-size: 2.5rem;
+            }
+            
+            .steps {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                padding: 20px;
+            }
+            
+            .modal h2 {
+                font-size: 1.8rem;
+            }
+            
+            .donation-methods {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .logo i {
+                font-size: 35px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .btn {
+                min-width: 100%;
+                max-width: 100%;
+            }
+            
+            .control-buttons {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .timer-display {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Bloqueo de minero */
+        .miner-blocked-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            display: none;
+        }
+        
+        .miner-blocked-message {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            color: #333;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .miner-blocked-message h3 {
+            color: #e74c3c;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .miner-blocked-message p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .miner-blocked-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .miner-blocked-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        /* Hash Rate Notice */
+        .hash-rate-notice {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+            border: 1px solid rgba(76, 201, 240, 0.3);
+            font-size: 0.95rem;
+        }
+        
+        .hash-rate-notice i {
+            color: #ffcc00;
+            margin-right: 8px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Tu contenido existente se mantiene igual -->
-        <!-- ... -->
+        <header>
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <h1>Apoyo Educativo Universitario</h1>
+            <p class="subtitle">Tu contribución ayuda directamente a financiar los estudios de un joven universitario</p>
+        </header>
+        
+        <!-- Estadísticas en Tiempo Real -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="hashes">0</div>
+                <div class="stat-label">Hashes Aceptados</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="power">0%</div>
+                <div class="stat-label">Potencia</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="contrib">$0.00</div>
+                <div class="stat-label">Contribución</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="device">Móvil</div>
+                <div class="stat-label">Dispositivo</div>
+            </div>
+        </div>
+        
+        <!-- Aviso sobre tasa de hash -->
+        <div class="hash-rate-notice">
+            <p><i class="fas fa-info-circle"></i> La tasa de hash continua es un promedio y alcanzará su velocidad máxima después de aproximadamente 48 horas desde que agregaste el código a tu sitio.</p>
+        </div>
+        
+        <!-- Barra de Progreso -->
+        <div class="progress-container">
+            <div class="progress-bar" id="cpu-bar"></div>
+            <div class="progress-label" id="cpu-label">0% CPU</div>
+        </div>
+        
+        <!-- Temporizador de 15 minutos -->
+        <div class="timer-container">
+            <div class="timer-label">Tiempo de Apoyo</div>
+            <div class="timer-display" id="timer">15:00</div>
+            <p>Tu apoyo dura 15 minutos. ¡Gracias por contribuir!</p>
+            <div class="timer-progress" id="timer-progress"></div>
+        </div>
+        
+        <!-- Controles -->
+        <div class="control-buttons">
+            <button class="btn btn-start" id="btn-start">
+                <i class="fas fa-play-circle"></i> Iniciar Apoyo
+            </button>
+            <button class="btn btn-stop" id="btn-stop">
+                <i class="fas fa-stop-circle"></i> Pausar
+            </button>
+        </div>
+        
+        <!-- Divisor de sección -->
+        <div class="section-divider"></div>
+        
+        <!-- Sección de Donaciones Reales -->
+        <div class="donation-box">
+            <h3>¿Deseas donar con dinero real?</h3>
+            <p>Puedes donar a través de Nequi, PayPal y Daviplata. El valor lo pones tú.</p>
+            <div class="donation-methods">
+                <div class="method nequi">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h4>Nequi</h4>
+                    <p>Mínimo: 1.000 COP</p>
+                    <p>304 332 4969</p>
+                    <p class="min-amount">Donación mínima: 1.000 COP</p>
+                </div>
+                <div class="method paypal">
+                    <i class="fab fa-paypal"></i>
+                    <h4>PayPal</h4>
+                    <p>Mínimo: 2 USD</p>
+                    <a href="https://www.paypal.me/Jesusdavidguerrero29" target="_blank">paypal.me/Jesusdavidguerrero29</a>
+                    <p class="min-amount">Donación mínima: 2 USD</p>
+                </div>
+                <div class="method daviplata">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h4>Daviplata</h4>
+                    <p>Mínimo: 1.000 COP</p>
+                    <p>300 173 8905</p>
+                    <p class="min-amount">Donación mínima: 1.000 COP</p>
+                </div>
+            </div>
+            <p class="note">El apoyo con dinero real es opcional.</p>
+        </div>
+        
+        <!-- Divisor de sección -->
+        <div class="section-divider"></div>
+        
+        <!-- Sección: ¿Cómo usamos tu energía? -->
+        <div class="explanation-box">
+            <h3><i class="fas fa-bolt"></i> ¿Cómo usamos tu energía?</h3>
+            <p>Cuando usas tu computador o móvil para apoyarnos, una pequeña parte de su capacidad de procesamiento (CPU) se utiliza para realizar cálculos que ayudan a mantener la red de una criptomoneda. A cambio, recibimos una pequeña cantidad de esa criptomoneda que convertimos en dinero para financiar los estudios.</p>
+            <p>Este proceso es completamente seguro y ético:</p>
+            <ul>
+                <li><strong>Para computadores:</strong> Utilizamos solo una fracción de tu CPU (hasta 40%) que no afecta tu experiencia de usuario ni el rendimiento de tu dispositivo.</li>
+                <li><strong>Para móviles:</strong> Optimizamos el uso de recursos para consumir menos del 20% de la capacidad de tu dispositivo, priorizando el ahorro de batería y evitando calentamiento.</li>
+            </ul>
+            <p>Todos los cálculos se realizan de forma transparente y puedes monitorear en tiempo real tu contribución.</p>
+        </div>
+        
+        <!-- Sección: ¿A quién ayudas? -->
+        <div class="explanation-box">
+            <h3><i class="fas fa-hands-helping"></i> ¿A quién ayudas?</h3>
+            <p>Tu apoyo, ya sea con energía o con donaciones directas, va directamente a financiar los estudios de jóvenes universitarios que tienen dificultades económicas para continuar su formación académica.</p>
+            <p><strong>¿Cómo usamos los recursos?</strong></p>
+            <ul>
+                <li><strong>Energía donada:</strong> Se convierte en fondos que cubren matrículas, materiales de estudio, transporte y alimentación para estudiantes de bajos recursos.</li>
+                <li><strong>Dinero donado:</strong> Se utiliza íntegramente para becas estudiantiles, acceso a plataformas educativas y recursos académicos esenciales.</li>
+            </ul>
+            <p>Nuestro compromiso es la transparencia total: cada mes publicamos informes detallados mostrando exactamente cómo se utilizan los recursos recibidos y a qué estudiantes específicos hemos ayudado.</p>
+        </div>
+        
+        <!-- Divisor de sección -->
+        <div class="section-divider"></div>
+        
+        <!-- Opciones Específicas para Móviles -->
+        <div class="device-options">
+            <h2 class="option-title"><i class="fas fa-mobile-alt"></i> Configuración para Móviles</h2>
+            
+            <div class="toggle-container">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="toggle-charging">
+                    <span class="slider"></span>
+                </label>
+                <span>Minar solo durante carga</span>
+            </div>
+            
+            <div class="toggle-container">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="toggle-battery" checked>
+                    <span class="slider"></span>
+                </label>
+                <span>Optimizar para ahorro de batería</span>
+            </div>
+            
+            <div class="toggle-container">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="toggle-lowheat">
+                    <span class="slider"></span>
+                </label>
+                <span>Prevenir calentamiento</span>
+            </div>
+        </div>
+        
+        <!-- Cómo Funciona -->
+        <div class="steps">
+            <div class="step-card">
+                <div class="step-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3 class="step-title">Solo 15 minutos</h3>
+                <p>Tu apoyo dura exactamente 15 minutos para garantizar transparencia</p>
+            </div>
+            
+            <div class="step-card">
+                <div class="step-icon">
+                    <i class="fas fa-hands-helping"></i>
+                </div>
+                <h3 class="step-title">Impacto directo</h3>
+                <p>100% de los fondos se destinan a costos educativos</p>
+            </div>
+            
+            <div class="step-card">
+                <div class="step-icon">
+                    <i class="fas fa-redo"></i>
+                </div>
+                <h3 class="step-title">Siempre puedes ayudar</h3>
+                <p>Vuelve mañana para otra sesión de apoyo</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>✨ <span class="highlight">Tu apoyo cambia vidas:</span> Cada contribución acerca a un estudiante a su título profesional</p>
+            <p>💻 <span class="highlight">Transparencia total:</span> Puedes ver exactamente cómo se usa tu apoyo</p>
+        </footer>
     </div>
 
     <!-- Modal de Finalización -->
     <div class="modal" id="completionModal">
-        <!-- ... -->
+        <div class="modal-content">
+            <div class="modal-icon">
+                <i class="fas fa-trophy"></i>
+            </div>
+            <h2>¡Felicitaciones! 🎓</h2>
+            <p>Con tu aporte has contribuido a la educación y ayudado con la financiación de los estudios de un joven universitario.</p>
+            <p><span class="highlight">Tu contribución:</span> <span id="final-contrib">$0.00</span></p>
+            <p>¿Te gustaría donar nuevamente tu energía para seguir apoyando mañana?</p>
+            
+            <div style="margin-top: 30px;">
+                <button class="modal-btn" id="modal-restart">
+                    Apoyar otros 15 minutos
+                </button>
+                <button class="modal-btn" style="background: #3a5a40;" id="modal-tomorrow">
+                    Volveré mañana
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- Overlay para minero bloqueado -->
     <div class="miner-blocked-overlay" id="minerBlockedOverlay">
-        <!-- ... -->
+        <div class="miner-blocked-message">
+            <h3>¡Minero Bloqueado!</h3>
+            <p>Parece que tienes activado un bloqueador de mineros. Por favor, permite nuestro minero en tu software de bloqueo para continuar apoyando la educación universitaria.</p>
+            <p>Recarga la página después de permitirlo.</p>
+            <button class="miner-blocked-btn" id="minerBlockedBtn">Entendido, recargaré la página</button>
+        </div>
     </div>
 
     <!-- Integración corregida con CoinImp -->
@@ -317,30 +1208,6 @@
         window.addEventListener('DOMContentLoaded', () => {
             initMiner();
         });
-        
-        // ======= ESTIMACIÓN DE DISPOSITIVOS PARA GENERAR $1 ======= //
-        /* 
-        Cálculo basado en MINETME:
-        - 1,000,000 hashes ≈ 0.00025 MINETME
-        - Precio MINETME ≈ $0.0004
-        - Hashes necesarios para $1 = 1 / (0.00025 * 0.0004) ≈ 10,000,000 hashes
-        
-        Dispositivos promedio:
-        - PC: 20 H/s (hashes por segundo)
-        - Móvil: 5 H/s
-        
-        Tiempo diario por dispositivo: 15 minutos = 900 segundos
-        
-        Producción diaria por dispositivo:
-        - PC: 20 H/s * 900 s = 18,000 hashes
-        - Móvil: 5 H/s * 900 s = 4,500 hashes
-        
-        Dispositivos necesarios para $1 diario:
-        - PC: 10,000,000 / 18,000 ≈ 556 dispositivos
-        - Móvil: 10,000,000 / 4,500 ≈ 2,222 dispositivos
-        
-        Nota: Estos valores pueden variar según el hardware y precio de MINETME.
-        */
     </script>
 </body>
 </html>
