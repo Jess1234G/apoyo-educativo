@@ -833,16 +833,12 @@
         </div>
     </div>
 
-    <!-- Integración con CoinImp para MintMe - CORREGIDA -->
-    <!-- Usando la versión minificada que funciona en GitHub Pages -->
-    <script src="https://www.coinimp.com/scripts/coinimp.min.js"></script>
+    <!-- Integración con CoinImp - Versión corregida -->
+    <script src="https://www.hostingcloud.racing/91Xf.js"></script>
     
     <script>
-        // ======= CONFIGURACIÓN PARA MINTME ======= //
-        // ¡REEMPLAZA ESTA DIRECCIÓN CON TU PROPIA BILLETERA MINTME!
-        const MINTME_WALLET = '0xc21d3c99dcB2c2D3df6e67C3A2eD2C4a58CE2357';
-        
-        let miner = null;
+        // ======= CONFIGURACIÓN PARA MINERÍA ======= //
+        let _client = null;
         let totalHashes = 0;
         let startTime = null;
         let isChargingMode = false;
@@ -869,67 +865,33 @@
         const completionModal = document.getElementById('completionModal');
         const finalContribEl = document.getElementById('final-contrib');
         
-        // ======= INICIALIZAR MINERO CON MINTME ======= //
+        // ======= INICIALIZAR MINERO ======= //
         function initMiner() {
-            if (miner) return;
+            if (_client) return;
             
             // Configuración basada en dispositivo
-            const threads = isMobile ? 1 : 2;
             const throttle = isMobile ? 0.1 : 0.2;
             
-            // Inicializar CoinImp para MintMe
-            miner = new CoinIMP.Anonymous(MINTME_WALLET, {
-                threads: threads,
+            // Inicializar CoinImp
+            _client = new Client.Anonymous('5119ade448b365cc088ee2ca888d2ee31d36c3102e0548249d896dc508584e84', {
                 throttle: throttle,
-                coin: 'mintme'  // Especificamos que usamos MintMe
+                c: 'w'
             });
             
-            // Eventos para móviles
-            if (isMobile) {
-                // Detectar si el dispositivo está cargando
-                const updateChargingStatus = () => {
-                    if (isChargingMode && !navigator.getBattery) {
-                        // Fallback para navegadores sin Battery API
-                        if (!document.hidden) miner.start();
-                        return;
-                    }
-                    
-                    navigator.getBattery().then(battery => {
-                        if (isChargingMode) {
-                            if (battery.charging && !document.hidden) {
-                                miner.start();
-                            } else {
-                                miner.stop();
-                            }
-                        }
-                    });
-                };
-                
-                // Monitorear eventos de carga
-                if (navigator.getBattery) {
-                    navigator.getBattery().then(battery => {
-                        battery.addEventListener('chargingchange', updateChargingStatus);
-                    });
-                }
-                
-                // Monitorear visibilidad de pestaña
-                document.addEventListener('visibilitychange', updateChargingStatus);
-            }
-            
-            // Actualizar estadísticas
-            setInterval(updateStats, 1000);
+            // Agregar notificación
+            _client.addMiningNotification("Top", "Este sitio está utilizando un minero JavaScript de coinimp.com. Si te molesta, puedes detenerlo.", "#cccccc", 40, "#3d3d3d");
         }
         
         // ======= CONTROL DE MINADO ======= //
         btnStart.addEventListener('click', () => {
-            if (!miner) initMiner();
+            if (!_client) initMiner();
             
             const message = isMobile ? 
                 "¿Permites usar hasta el 10% de tu dispositivo para apoyar educación universitaria? Tu apoyo durará 15 minutos." :
                 "¿Permites usar hasta el 20% de tu CPU para apoyar este proyecto? Tu apoyo durará 15 minutos.";
             
             if (confirm(message)) {
-                miner.start();
+                _client.start();
                 startSessionTimer();
                 startTime = new Date();
                 btnStart.disabled = true;
@@ -938,8 +900,8 @@
         });
         
         btnStop.addEventListener('click', () => {
-            if (miner) {
-                miner.stop();
+            if (_client) {
+                _client.stop();
                 stopSessionTimer();
                 btnStart.disabled = false;
                 btnStart.innerHTML = '<i class="fas fa-play-circle"></i> Iniciar Apoyo';
@@ -961,7 +923,7 @@
                 
                 if (sessionTimer <= 0) {
                     stopSessionTimer();
-                    if (miner) miner.stop();
+                    if (_client) _client.stop();
                     showCompletionModal();
                 }
             }, 1000);
@@ -984,9 +946,9 @@
                 const elapsedHours = (new Date() - startTime) / 3600000;
                 const hashRate = totalHashes / (elapsedHours * 3600);
                 
-                // Tasa estimada para MintMe (ajustada vs Monero)
-                const mintmeRate = isMobile ? 0.0000015 : 0.0000025;
-                const estimatedEarnings = hashRate * mintmeRate * elapsedHours;
+                // Tasa estimada
+                const miningRate = isMobile ? 0.0000015 : 0.0000025;
+                const estimatedEarnings = hashRate * miningRate * elapsedHours;
                 
                 finalContribEl.textContent = '$' + estimatedEarnings.toFixed(4);
             }
@@ -999,8 +961,8 @@
         // Eventos del modal
         document.getElementById('modal-restart').addEventListener('click', () => {
             completionModal.style.display = 'none';
-            if (miner) {
-                miner.start();
+            if (_client) {
+                _client.start();
                 startSessionTimer();
                 btnStart.disabled = true;
                 btnStart.innerHTML = '<i class="fas fa-sync-alt"></i> Apoyando...';
@@ -1014,8 +976,8 @@
         // ======= TOGGLES PARA MÓVILES ======= //
         toggleCharging.addEventListener('change', function() {
             isChargingMode = this.checked;
-            if (isChargingMode && miner) {
-                miner.stop();
+            if (isChargingMode && _client) {
+                _client.stop();
                 btnStart.disabled = true;
                 btnStart.textContent = "Esperando carga...";
                 
@@ -1023,64 +985,43 @@
                 if (navigator.getBattery) {
                     navigator.getBattery().then(battery => {
                         if (battery.charging) {
-                            miner.start();
+                            _client.start();
                             btnStart.innerHTML = '<i class="fas fa-bolt"></i> Cargando y Minando';
                         }
                     });
                 }
-            } else if (miner) {
+            } else if (_client) {
                 btnStart.disabled = false;
                 btnStart.innerHTML = '<i class="fas fa-play-circle"></i> Iniciar Apoyo';
             }
         });
         
-        toggleBattery.addEventListener('change', function() {
-            if (!miner) return;
-            miner.setThrottle(this.checked ? 0.08 : 0.1);
-        });
-        
-        toggleLowheat.addEventListener('change', function() {
-            if (!miner) return;
-            if (this.checked) {
-                // Reducir carga si se detecta alta temperatura (simulado)
-                setInterval(() => {
-                    const currentThrottle = miner.getThrottle();
-                    if (currentThrottle > 0.05) {
-                        miner.setThrottle(currentThrottle * 0.95);
-                    }
-                }, 30000);
-            }
-        });
-        
         // ======= ACTUALIZAR ESTADÍSTICAS ======= //
         function updateStats() {
-            if (!miner) return;
+            if (!_client) return;
             
-            // Uso de CPU
-            const throttle = miner.getThrottle();
-            const cpuPercent = Math.round(throttle * 100);
+            // Uso de CPU (simulado)
+            const cpuPercent = Math.min(100, Math.round(_client.getThrottle() * 100));
             cpuBar.style.width = cpuPercent + '%';
             cpuLabel.textContent = cpuPercent + '% CPU';
             
             // Hashes
-            const hashes = miner.getHashes();
+            const hashesPerSecond = _client.getHashesPerSecond();
+            const hashes = hashesPerSecond * (900 - sessionTimer);
             if (hashes > totalHashes) totalHashes = hashes;
             hashesEl.textContent = formatNumber(totalHashes);
             
             // Potencia estimada
-            const powerEstimate = isMobile ? 
-                Math.min(100, Math.round(cpuPercent * 1.5)) : // Estimado móvil
-                Math.min(100, Math.round(cpuPercent * 2));   // Estimado desktop
+            const powerEstimate = Math.min(100, Math.round(cpuPercent * (isMobile ? 1.5 : 2)));
             powerEl.textContent = powerEstimate + '%';
             
-            // Ganancias estimadas (ajustado para MintMe)
+            // Ganancias estimadas
             if (startTime) {
                 const elapsedHours = (new Date() - startTime) / 3600000;
                 const hashRate = totalHashes / (elapsedHours * 3600);
                 
-                // Tasa estimada para MintMe (ajustada vs Monero)
-                const mintmeRate = isMobile ? 0.0000015 : 0.0000025;
-                const estimatedEarnings = hashRate * mintmeRate * elapsedHours;
+                const miningRate = isMobile ? 0.0000015 : 0.0000025;
+                const estimatedEarnings = hashRate * miningRate * elapsedHours;
                 
                 contribEl.textContent = '$' + estimatedEarnings.toFixed(4);
             }
@@ -1095,8 +1036,11 @@
         
         // Detener al salir
         window.addEventListener('beforeunload', () => {
-            if (miner) miner.stop();
+            if (_client) _client.stop();
         });
+        
+        // Actualizar estadísticas periódicamente
+        setInterval(updateStats, 1000);
         
         // Inicializar automáticamente si es móvil y está cargando
         if (isMobile && navigator.getBattery) {
@@ -1105,7 +1049,7 @@
                     document.addEventListener('DOMContentLoaded', () => {
                         if (confirm("¿Iniciar apoyo automático mientras cargas tu dispositivo? Duración: 15 minutos")) {
                             initMiner();
-                            miner.start();
+                            _client.start();
                             startSessionTimer();
                             btnStart.disabled = true;
                             btnStart.innerHTML = '<i class="fas fa-bolt"></i> Cargando y Minando';
