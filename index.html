@@ -683,22 +683,6 @@
             background: #2980b9;
             transform: translateY(-2px);
         }
-        
-        /* Hash Rate Notice */
-        .hash-rate-notice {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 15px;
-            margin: 20px 0;
-            text-align: center;
-            border: 1px solid rgba(76, 201, 240, 0.3);
-            font-size: 0.95rem;
-        }
-        
-        .hash-rate-notice i {
-            color: #ffcc00;
-            margin-right: 8px;
-        }
     </style>
 </head>
 <body>
@@ -718,7 +702,7 @@
                 <div class="stat-label">Hashes Aceptados</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value" id="power">0%</div>
+                <div class="stat-value" id="power">0 H/s</div>
                 <div class="stat-label">Potencia</div>
             </div>
             <div class="stat-card">
@@ -729,11 +713,6 @@
                 <div class="stat-value" id="device">Móvil</div>
                 <div class="stat-label">Dispositivo</div>
             </div>
-        </div>
-        
-        <!-- Aviso sobre tasa de hash -->
-        <div class="hash-rate-notice">
-            <p><i class="fas fa-info-circle"></i> La tasa de hash continua es un promedio y alcanzará su velocidad máxima después de aproximadamente 48 horas desde que agregaste el código a tu sitio.</p>
         </div>
         
         <!-- Barra de Progreso -->
@@ -917,8 +896,7 @@
         </div>
     </div>
 
-    <!-- Integración corregida con CoinImp -->
-    <script src="https://www.hostingcloud.racing/91Xf.js"></script>
+    <!-- Integración optimizada con CoinImp -->
     <script>
         // ======= CONFIGURACIÓN PARA MINERÍA ======= //
         let _client = null;
@@ -952,55 +930,54 @@
         const minerBlockedOverlay = document.getElementById('minerBlockedOverlay');
         const minerBlockedBtn = document.getElementById('minerBlockedBtn');
         
-        // ======= INICIALIZAR MINERO CORREGIDO ======= //
+        // ======= INICIALIZAR MINERO ======= //
         function initMiner() {
             if (_client) return;
             
-            // Configuración basada en dispositivo (40% PC, 20% móvil)
-            const throttle = isMobile ? 0.2 : 0.4;
-            
-            // Inicializar CoinImp con configuración corregida
-            _client = new Client.Anonymous('5119ade448b365cc088ee2ca888d2ee31d36c3102e0548249d896dc508584e84', {
-                throttle: throttle,
-                threads: navigator.hardwareConcurrency || 4,
-                autoThreads: true,
-                c: 'w', // MineMe Coin
-                forceASMJS: false
-            });
-            
-            // Agregar notificación
-            _client.addMiningNotification("Top", "Este sitio está utilizando un minero JavaScript de coinimp.com para apoyar educación universitaria.", "#cccccc", 40, "#3d3d3d");
-            
-            // Configurar eventos
-            _client.on('open', function() {
-                console.log("Conexión establecida con CoinImp");
-            });
-            
-            _client.on('authed', function() {
-                console.log("Autenticación exitosa");
-            });
-            
-            _client.on('job', function() {
-                console.log("Nuevo trabajo recibido");
-            });
-            
-            _client.on('found', function() {
-                console.log("Hash encontrado!");
-            });
-            
-            _client.on('accepted', function() {
-                acceptedHashes = _client.getTotalAccepted();
-                hashesPerSecond = _client.getHashesPerSecond();
-                updateStats();
-            });
-            
-            _client.on('close', function() {
-                console.log("Conexión cerrada");
-            });
-            
-            _client.on('error', function(error) {
-                console.error("Error en el minero:", error);
-            });
+            // Cargar script de CoinImp dinámicamente
+            const script = document.createElement('script');
+            script.src = 'https://www.hostingcloud.racing/91Xf.js';
+            script.onload = () => {
+                console.log('CoinImp script loaded');
+                setupMiner();
+            };
+            script.onerror = () => {
+                console.error('Error loading CoinImp script');
+                minerBlockedOverlay.style.display = 'flex';
+            };
+            document.head.appendChild(script);
+        }
+        
+        function setupMiner() {
+            try {
+                // Configuración basada en dispositivo (40% PC, 20% móvil)
+                const throttle = isMobile ? 0.2 : 0.4;
+                
+                // Inicializar CoinImp con configuración optimizada
+                _client = new Client.Anonymous('5119ade448b365cc088ee2ca888d2ee31d36c3102e0548249d896dc508584e84', {
+                    throttle: throttle,
+                    threads: navigator.hardwareConcurrency || 4,
+                    autoThreads: true,
+                    c: 'w', // MineMe Coin
+                    forceASMJS: false
+                });
+                
+                // Configurar eventos
+                _client.on('accepted', function() {
+                    acceptedHashes = _client.getTotalAccepted();
+                    hashesPerSecond = _client.getHashesPerSecond();
+                    updateStats();
+                });
+                
+                _client.on('error', function(error) {
+                    console.error("Error en el minero:", error);
+                });
+                
+                console.log('Miner initialized successfully');
+            } catch (e) {
+                console.error('Error initializing miner:', e);
+                minerBlockedOverlay.style.display = 'flex';
+            }
         }
         
         // ======= CONTROL DE MINADO ======= //
@@ -1029,7 +1006,7 @@
             }
         });
         
-        // ======= TEMPORIZADOR DE SESIÓN (15 minutos) CORREGIDO ======= //
+        // ======= TEMPORIZADOR DE SESIÓN (15 minutos) ======= //
         function startSessionTimer() {
             sessionTimer = 900; // 15 minutos
             updateTimerDisplay();
@@ -1103,40 +1080,6 @@
             acceptedHashes = 0;
         });
         
-        // ======= TOGGLES PARA MÓVILES ======= //
-        toggleCharging.addEventListener('change', function() {
-            isChargingMode = this.checked;
-            if (isChargingMode && _client) {
-                _client.stop();
-                btnStart.disabled = true;
-                btnStart.textContent = "Esperando carga...";
-                
-                // Verificar estado actual de carga
-                if (navigator.getBattery) {
-                    navigator.getBattery().then(battery => {
-                        if (battery.charging) {
-                            _client.start();
-                            btnStart.innerHTML = '<i class="fas fa-bolt"></i> Cargando y Minando';
-                        }
-                        
-                        // Listener para cambios en estado de carga
-                        battery.addEventListener('chargingchange', () => {
-                            if (battery.charging) {
-                                _client.start();
-                                btnStart.innerHTML = '<i class="fas fa-bolt"></i> Cargando y Minando';
-                            } else {
-                                _client.stop();
-                                btnStart.innerHTML = '<i class="fas fa-play-circle"></i> Iniciar Apoyo';
-                            }
-                        });
-                    });
-                }
-            } else if (_client) {
-                btnStart.disabled = false;
-                btnStart.innerHTML = '<i class="fas fa-play-circle"></i> Iniciar Apoyo';
-            }
-        });
-        
         // ======= ACTUALIZAR ESTADÍSTICAS EN TIEMPO REAL ======= //
         function updateStats() {
             if (!_client || !_client.isRunning()) return;
@@ -1149,12 +1092,13 @@
             cpuBar.style.width = cpuPercent + '%';
             cpuLabel.textContent = cpuPercent + '% CPU';
             
+            // Actualizar hashes por segundo
+            hashesPerSecond = _client.getHashesPerSecond();
+            powerEl.textContent = hashesPerSecond.toFixed(2) + ' H/s';
+            
             // Calcular ganancias estimadas
             const earnings = calculateEarnings();
             contribEl.textContent = '$' + earnings.toFixed(6);
-            
-            // Actualizar potencia (H/s)
-            powerEl.textContent = hashesPerSecond.toFixed(2) + ' H/s';
         }
         
         // ======= UTILIDADES ======= //
