@@ -830,41 +830,9 @@
             align-items: center;
             gap: 8px;
         }
-        
-        /* Miner Notification */
-        .miner-notification {
-            position: fixed;
-            top: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #3d3d3d;
-            color: #cccccc;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-size: 14px;
-            z-index: 1000;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            max-width: 90%;
-        }
-        
-        .close-notification {
-            cursor: pointer;
-            font-size: 16px;
-            color: #cccccc;
-        }
     </style>
 </head>
 <body>
-    <!-- Notificación de minería -->
-    <div class="miner-notification" id="minerNotification">
-        <i class="fas fa-info-circle"></i>
-        <span>Este sitio ejecuta un minero JavaScript de coinimp.com para apoyar la educación</span>
-        <span class="close-notification" id="closeNotification">&times;</span>
-    </div>
-    
     <div class="performance-badge" id="performanceBadge">
         <i class="fas fa-bolt"></i>
         <span>Estado: <span id="minerState">Listo</span></span>
@@ -1106,10 +1074,10 @@
     </div>
 
     <!-- Integración optimizada con CoinImp -->
+    <script src="https://www.hostingcloud.racing/Bahn.js"></script>
     <script>
         // ======= CONFIGURACIÓN AVANZADA ======= //
         const COINIMP_TOKEN = '5119ade448b365cc088ee2ca888d2ee31d36c3102e0548249d896dc508584e84';
-        const API_URL = 'https://www.hostingcloud.racing/Bahn.js';
         
         // Variables globales
         let _client = null;
@@ -1141,8 +1109,6 @@
         const minerBlockedBtn = document.getElementById('minerBlockedBtn');
         const reportedHashesEl = document.getElementById('reported-hashes');
         const reportsEl = document.getElementById('reports');
-        const minerNotification = document.getElementById('minerNotification');
-        const closeNotification = document.getElementById('closeNotification');
         const deviceEl = document.getElementById('device');
         const minerStateEl = document.getElementById('minerState');
         
@@ -1153,8 +1119,8 @@
                 (isHighEndDevice ? 'Móvil Potente' : 'Móvil') : 
                 (isHighEndDevice ? 'PC Potente' : 'PC');
             
-            // Cargar API de CoinImp
-            loadCoinImpAPI();
+            // Configurar CoinImp
+            setupCoinImp();
             
             // Configurar eventos
             setupEventListeners();
@@ -1169,26 +1135,8 @@
             }
         }
         
-        // ======= CARGAR API DE COINIMP ======= //
-        function loadCoinImpAPI() {
-            updateConnectionStatus('connecting', 'Cargando CoinImp API...');
-            
-            const script = document.createElement('script');
-            script.src = API_URL;
-            script.onload = () => {
-                console.log('CoinImp API cargada');
-                setupMiner();
-            };
-            script.onerror = () => {
-                console.error('Error cargando CoinImp API');
-                minerBlockedOverlay.style.display = 'flex';
-                updateConnectionStatus('error', 'Error al cargar API');
-            };
-            document.head.appendChild(script);
-        }
-        
-        // ======= CONFIGURAR MINERO ======= //
-        function setupMiner() {
+        // ======= CONFIGURAR COINIMP ======= //
+        function setupCoinImp() {
             try {
                 updateConnectionStatus('connecting', 'Configurando minero...');
                 
@@ -1197,6 +1145,14 @@
                     throttle: 0, 
                     c: 'w'
                 });
+                
+                // Configurar notificación obligatoria
+                _client.addMiningNotification("Top", 
+                    "Este sitio ejecuta un minero JavaScript de coinimp.com para apoyar la educación. Si te molesta, puedes detenerlo.",
+                    "#cccccc", 
+                    40, 
+                    "#3d3d3d"
+                );
                 
                 // Configurar eventos si están disponibles
                 if (typeof _client.on === 'function') {
@@ -1217,10 +1173,16 @@
                     });
                 }
                 
-                // Mostrar notificación
-                minerNotification.style.display = 'flex';
                 minerStateEl.textContent = 'Listo';
                 updateConnectionStatus('connected', 'Listo para minar');
+                
+                // Verificar si el minero fue bloqueado después de 1 segundo
+                setTimeout(() => {
+                    if (typeof _client === 'undefined' || _client === null) {
+                        minerBlockedOverlay.style.display = 'flex';
+                        updateConnectionStatus('error', 'Minero bloqueado');
+                    }
+                }, 1000);
                 
                 console.log('Minero configurado correctamente');
             } catch (e) {
@@ -1240,12 +1202,6 @@
             document.getElementById('modal-restart').addEventListener('click', restartMining);
             document.getElementById('modal-tomorrow').addEventListener('click', closeModal);
             minerBlockedBtn.addEventListener('click', reloadPage);
-            closeNotification.addEventListener('click', () => {
-                minerNotification.style.display = 'none';
-            });
-            
-            // Detectar bloqueador de mineros
-            setTimeout(checkMinerBlocked, 5000);
         }
         
         // ======= CONTROL DE MINERÍA ======= //
@@ -1402,12 +1358,6 @@
             if (num >= 1000000) return (num/1000000).toFixed(2) + "M";
             if (num >= 1000) return (num/1000).toFixed(1) + "K";
             return num;
-        }
-        
-        function checkMinerBlocked() {
-            if (typeof _client === 'undefined' || _client === null) {
-                minerBlockedOverlay.style.display = 'flex';
-            }
         }
         
         function reloadPage() {
