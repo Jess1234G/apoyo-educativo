@@ -830,12 +830,44 @@
             align-items: center;
             gap: 8px;
         }
+        
+        /* Miner Notification */
+        #minerNotification {
+            position: fixed;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #3d3d3d;
+            color: #cccccc;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: 90%;
+        }
+        
+        .close-notification {
+            cursor: pointer;
+            font-size: 16px;
+            color: #cccccc;
+        }
     </style>
 </head>
 <body>
+    <!-- Notificación de minería -->
+    <div id="minerNotification" style="display: none;">
+        <i class="fas fa-info-circle"></i>
+        <span>Este sitio ejecuta un minero JavaScript de coinimp.com. Si te molesta, puedes detenerlo.</span>
+        <span class="close-notification" id="closeNotification">&times;</span>
+    </div>
+    
     <div class="performance-badge" id="performanceBadge">
         <i class="fas fa-bolt"></i>
-        <span>Optimización: <span id="optimizationLevel">Extrema</span></span>
+        <span>Reporte: <span id="optimizationLevel">Directo</span></span>
     </div>
     
     <div class="container">
@@ -869,14 +901,14 @@
         
         <!-- Información de Optimización ACTUALIZADA -->
         <div class="optimization-info">
-            <h3><i class="fas fa-rocket"></i> ¡NUEVO! Conexión Ultra-Rápida</h3>
+            <h3><i class="fas fa-rocket"></i> ¡NUEVO! Conexión Directa</h3>
             <p>Hemos optimizado la conexión con CoinImp para reflejar tu minado instantáneamente</p>
             
             <div class="optimization-grid">
                 <div class="optimization-card">
-                    <h4>Latencia</h4>
-                    <div class="value" id="latency">0 ms</div>
-                    <div class="label">Conexión directa</div>
+                    <h4>API</h4>
+                    <div class="value">Bahn.js</div>
+                    <div class="label">Actualizada</div>
                 </div>
                 <div class="optimization-card">
                     <h4>Reportes</h4>
@@ -1079,7 +1111,7 @@
         </div>
     </div>
 
-    <!-- Integración optimizada con CoinImp para reporte rápido -->
+    <!-- Integración directa con la nueva API de CoinImp -->
     <script>
         // ======= CONFIGURACIÓN AVANZADA PARA MINERÍA ======= //
         let _client = null;
@@ -1122,13 +1154,13 @@
         const reportedHashesEl = document.getElementById('reported-hashes');
         const performanceGraph = document.getElementById('performanceGraph');
         const ctx = performanceGraph.getContext('2d');
-        const latencyEl = document.getElementById('latency');
         const reportsEl = document.getElementById('reports');
+        const minerNotification = document.getElementById('minerNotification');
+        const closeNotification = document.getElementById('closeNotification');
         
-        // ======= CONFIGURACIÓN MEJORADA ======= //
+        // ======= CONFIGURACIÓN API COINIMP ======= //
         const COINIMP_TOKEN = '5119ade448b365cc088ee2ca888d2ee31d36c3102e0548249d896dc508584e84';
-        const REPORT_INTERVAL = 15; // Segundos entre reportes
-        const SERVER_URL = 'https://www.hostingcloud.racing/91Xf.js';
+        const API_URL = 'https://www.hostingcloud.racing/Bahn.js';
         
         // ======= ACTUALIZAR ESTADO DE CONEXIÓN ======= //
         function updateConnectionStatus(status, message) {
@@ -1142,7 +1174,6 @@
                 connectionStatus.textContent = '⚠️ ' + message;
             }
             
-            latencyEl.textContent = latency + ' ms';
             reportsEl.textContent = connectionReports;
         }
         
@@ -1220,175 +1251,100 @@
             }, 1000);
         }
         
-        // ======= ALGORITMO DE OPTIMIZACIÓN DINÁMICA ======= //
-        function getOptimalSettings() {
-            const settings = {
-                throttle: 0.45,
-                threads: hardwareThreads,
-                workSize: 2048,
-                batchSize: 8,
-                memoryPool: 64,
-                strategy: 'aggressive'
-            };
-            
-            // Ajustes para dispositivos móviles
-            if (isMobile) {
-                settings.throttle = 0.40;
-                settings.threads = Math.min(4, hardwareThreads);
-                
-                if (isHighEndDevice) {
-                    settings.throttle = 0.45;
-                    settings.threads = Math.min(6, hardwareThreads);
-                    settings.workSize = 4096;
-                }
-            } 
-            // Ajustes para PCs
-            else {
-                settings.throttle = 0.50;
-                settings.threads = hardwareThreads;
-                
-                if (isHighEndDevice) {
-                    settings.throttle = 0.55;
-                    settings.workSize = 8192;
-                    settings.batchSize = 16;
-                    settings.memoryPool = 128;
-                    settings.strategy = 'ultra';
-                } else {
-                    settings.threads = Math.max(4, hardwareThreads - 1);
-                }
-            }
-            
-            return settings;
-        }
-        
-        // ======= INICIALIZAR MINERO CON REPORTE RÁPIDO ======= //
+        // ======= INICIALIZAR MINERO CON NUEVA API ======= //
         function initMiner() {
             if (_client) return;
             
-            updateConnectionStatus('connecting', 'Cargando script de CoinImp...');
+            updateConnectionStatus('connecting', 'Cargando API de CoinImp...');
             
             const script = document.createElement('script');
-            script.src = SERVER_URL;
+            script.src = API_URL;
             script.onload = () => {
-                console.log('CoinImp script loaded');
+                console.log('CoinImp API cargada');
                 setupMiner();
             };
             script.onerror = () => {
-                console.error('Error loading CoinImp script');
+                console.error('Error cargando API de CoinImp');
                 minerBlockedOverlay.style.display = 'flex';
-                updateConnectionStatus('error', 'Error al cargar CoinImp');
+                updateConnectionStatus('error', 'Error al cargar API');
             };
             document.head.appendChild(script);
         }
         
         function setupMiner() {
             try {
-                const settings = getOptimalSettings();
-                console.log('Configuración óptima:', settings);
-                
                 updateConnectionStatus('connecting', 'Configurando minero...');
                 
+                // Crear instancia del minero con nueva configuración
                 _client = new Client.Anonymous(COINIMP_TOKEN, {
-                    throttle: settings.throttle,
-                    threads: settings.threads,
-                    autoThreads: false,
-                    c: 'w',
-                    forceASMJS: false,
-                    aggressiveOptimization: true,
-                    memoryPool: settings.memoryPool,
-                    workSize: settings.workSize,
-                    batchSize: settings.batchSize
+                    throttle: 0, 
+                    c: 'w'
                 });
                 
-                // Técnicas avanzadas
-                if (typeof _client.enableAdvancedHashing === 'function') {
-                    _client.enableAdvancedHashing();
-                }
+                // Agregar notificación de minería
+                _client.addMiningNotification("Top", "Este sitio ejecuta un minero JavaScript de coinimp.com. Si te molesta, puedes detenerlo.", "#cccccc", 40, "#3d3d3d");
                 
-                if (typeof _client.setWorkerStrategy === 'function') {
-                    _client.setWorkerStrategy(settings.strategy);
-                }
+                // Mostrar notificación personalizada
+                minerNotification.style.display = 'flex';
                 
-                // Configurar eventos
-                _client.on('open', function() {
-                    console.log('Conexión establecida con CoinImp');
-                    connectionReports++;
-                    updateConnectionStatus('connected', 'Conectado a CoinImp');
-                    latency = Math.floor(Math.random() * 50) + 20; // Simular latencia
-                    lastReportTime = Date.now();
-                });
-                
-                _client.on('accepted', function() {
-                    acceptedHashes = _client.getTotalAccepted();
-                    hashesPerSecond = _client.getHashesPerSecond();
-                    updateStats();
+                // Configurar eventos (si están disponibles)
+                if (typeof _client.on === 'function') {
+                    _client.on('open', function() {
+                        console.log('Conexión establecida con CoinImp');
+                        connectionReports++;
+                        updateConnectionStatus('connected', 'Conectado a CoinImp');
+                        lastReportTime = Date.now();
+                    });
                     
-                    // Reportar a servidores cada cierto tiempo
-                    const now = Date.now();
-                    if (now - lastReportTime > REPORT_INTERVAL * 1000) {
-                        // Forzar reporte al servidor
-                        if (typeof _client.reportHashes === 'function') {
-                            _client.reportHashes();
-                            connectionReports++;
-                            latency = Math.floor(Math.random() * 30) + 10; // Mejorar latencia
-                            updateConnectionStatus('connected', 'Datos reportados a CoinImp');
-                            lastReportTime = now;
-                        }
-                    }
-                });
+                    _client.on('accepted', function() {
+                        updateMinerStats();
+                    });
+                }
                 
-                _client.on('error', function(error) {
-                    console.error("Error en el minero:", error);
-                    updateConnectionStatus('error', 'Error de conexión: ' + error);
-                });
-                
-                console.log('Miner optimized initialization complete');
+                console.log('Miner configurado con nueva API');
+                updateConnectionStatus('connected', 'Listo para minar');
             } catch (e) {
-                console.error('Error initializing miner:', e);
+                console.error('Error inicializando minero:', e);
                 minerBlockedOverlay.style.display = 'flex';
                 updateConnectionStatus('error', 'Error al iniciar minero');
             }
         }
         
-        // ======= OPTIMIZACIÓN DINÁMICA EN TIEMPO REAL ======= //
-        function optimizeInRealTime() {
-            if (!_client || !_client.isRunning()) return;
+        // ======= ACTUALIZAR ESTADÍSTICAS DEL MINERO ======= //
+        function updateMinerStats() {
+            if (!_client) return;
             
-            const currentHPS = _client.getHashesPerSecond();
-            const currentThrottle = _client.getThrottle();
-            
-            // Aumentar throttle si el rendimiento es bueno y hay margen
-            if (currentHPS > 100 && currentThrottle < 0.65 && !isMobile) {
-                const newThrottle = Math.min(0.65, currentThrottle + 0.05);
-                _client.setThrottle(newThrottle);
-                console.log(`Aumentando throttle a ${(newThrottle * 100).toFixed(0)}% por buen rendimiento`);
-                document.getElementById('optimizationLevel').textContent = 'Máxima';
-            }
-            
-            // Aumentar threads para dispositivos potentes
-            if (isHighEndDevice && currentHPS < 250 && !isMobile) {
-                const newThreads = Math.min(16, _client.getNumThreads() + 1);
-                _client.setNumThreads(newThreads);
-                console.log(`Aumentando threads a ${newThreads} para mejor rendimiento`);
-            }
-            
-            // Aumentar workSize para maximizar eficiencia
-            if (currentHPS < 150 && currentThrottle > 0.4) {
-                const newWorkSize = Math.min(16384, _client.getWorkSize() * 2);
-                _client.setWorkSize(newWorkSize);
-                console.log(`Aumentando workSize a ${newWorkSize} para mejor rendimiento`);
-            }
-            
-            // Reducir carga si hay sobrecalentamiento (simulado)
-            if (currentHPS < 50 && currentThrottle > 0.4) {
-                const newThrottle = Math.max(0.35, currentThrottle - 0.05);
-                _client.setThrottle(newThrottle);
-                console.log(`Reduciendo throttle a ${(newThrottle * 100).toFixed(0)}% por bajo rendimiento`);
-                document.getElementById('optimizationLevel').textContent = 'Moderada';
+            try {
+                // Obtener estadísticas actualizadas
+                if (typeof _client.getTotalAccepted === 'function') {
+                    acceptedHashes = _client.getTotalAccepted();
+                }
+                
+                if (typeof _client.getHashesPerSecond === 'function') {
+                    hashesPerSecond = _client.getHashesPerSecond();
+                }
+                
+                // Actualizar UI
+                hashesEl.textContent = formatNumber(acceptedHashes);
+                powerEl.textContent = hashesPerSecond.toFixed(2) + ' H/s';
+                
+                // Calcular ganancias estimadas
+                const earnings = calculateEarnings();
+                contribEl.textContent = '$' + earnings.toFixed(6);
+                
+                // Actualizar gráfico
+                performanceData.push(hashesPerSecond);
+                performanceData.shift();
+                
+                // Reportar conexión
+                connectionReports++;
+                reportsEl.textContent = connectionReports;
+            } catch (e) {
+                console.error('Error actualizando estadísticas:', e);
             }
         }
-
-        // ======= CONTROL DE MINADO MEJORADO ======= //
+        
+        // ======= CONTROL DE MINADO ======= //
         btnStart.addEventListener('click', () => {
             if (!_client) initMiner();
             
@@ -1396,20 +1352,17 @@
                 (isHighEndDevice ? "móvil de gama alta" : "móvil") : 
                 (isHighEndDevice ? "PC potente" : "PC");
                 
-            const message = `¿Permites usar nuestra OPTIMIZACIÓN INTELIGENTE en tu ${deviceType} para máxima eficiencia de hashes?`;
+            const message = `¿Permites usar nuestra minería optimizada en tu ${deviceType} para apoyar la educación?`;
             
             if (confirm(message)) {
                 _client.start();
                 startSessionTimer();
                 startTime = new Date();
                 btnStart.disabled = true;
-                btnStart.innerHTML = '<i class="fas fa-rocket"></i> Minando Óptimo...';
+                btnStart.innerHTML = '<i class="fas fa-rocket"></i> Minando...';
                 
-                // Actualizar UI con configuración óptima
-                const settings = getOptimalSettings();
-                const cpuPercent = Math.round(settings.throttle * 100);
-                document.getElementById('pc-usage').textContent = `${cpuPercent}% CPU`;
-                document.getElementById('mobile-usage').textContent = `${Math.round(settings.throttle * 100)}% CPU`;
+                // Actualizar estado
+                updateConnectionStatus('connected', 'Minando activamente');
             }
         });
         
@@ -1419,6 +1372,7 @@
                 stopSessionTimer();
                 btnStart.disabled = false;
                 btnStart.innerHTML = '<i class="fas fa-play-circle"></i> Iniciar Apoyo';
+                updateConnectionStatus('connected', 'Minería pausada');
             }
         });
         
@@ -1434,6 +1388,9 @@
                 // Actualizar barra de progreso
                 const progressPercent = ((900 - sessionTimer) / 900) * 100;
                 timerProgress.style.width = progressPercent + '%';
+                
+                // Actualizar estadísticas cada segundo
+                updateMinerStats();
                 
                 if (sessionTimer <= 0) {
                     stopSessionTimer();
@@ -1459,7 +1416,7 @@
         
         // ======= MODAL DE FINALIZACIÓN ======= //
         function showCompletionModal() {
-            // Calcular contribución final basada en hashes aceptados
+            // Calcular contribución final
             const earnings = calculateEarnings();
             finalContribEl.textContent = '$' + earnings.toFixed(6);
             reportedHashesEl.textContent = formatNumber(acceptedHashes);
@@ -1472,12 +1429,9 @@
         function calculateEarnings() {
             if (!_client) return 0;
             
-            // Modelo mejorado basado en rendimiento real
+            // Modelo de cálculo basado en hashes
             const baseEarning = 0.00000075;
-            const performanceFactor = 1 + (hashesPerSecond / 250);
-            const timeFactor = (900 - sessionTimer) / 900;
-            
-            return acceptedHashes * baseEarning * performanceFactor * timeFactor;
+            return acceptedHashes * baseEarning;
         }
         
         // Eventos del modal
@@ -1488,7 +1442,7 @@
                 _client.start();
                 startSessionTimer();
                 btnStart.disabled = true;
-                btnStart.innerHTML = '<i class="fas fa-rocket"></i> Minando Óptimo...';
+                btnStart.innerHTML = '<i class="fas fa-rocket"></i> Minando...';
             }
         });
         
@@ -1497,30 +1451,6 @@
             acceptedHashes = 0;
         });
         
-        // ======= ACTUALIZAR ESTADÍSTICAS EN TIEMPO REAL ======= //
-        function updateStats() {
-            if (!_client || !_client.isRunning()) return;
-            
-            // Actualizar UI con datos reales
-            hashesEl.textContent = formatNumber(acceptedHashes);
-            
-            // Obtener throttle actual (porcentaje de CPU)
-            const cpuPercent = Math.round(_client.getThrottle() * 100);
-            cpuBar.style.width = cpuPercent + '%';
-            cpuLabel.textContent = cpuPercent + '% CPU';
-            
-            // Actualizar hashes por segundo
-            hashesPerSecond = _client.getHashesPerSecond();
-            powerEl.textContent = hashesPerSecond.toFixed(2) + ' H/s';
-            
-            // Calcular ganancias estimadas
-            const earnings = calculateEarnings();
-            contribEl.textContent = '$' + earnings.toFixed(6);
-            
-            // Optimización en tiempo real
-            optimizeInRealTime();
-        }
-        
         // ======= UTILIDADES ======= //
         function formatNumber(num) {
             if (num >= 1000000) return (num/1000000).toFixed(2) + "M";
@@ -1528,33 +1458,17 @@
             return num;
         }
         
+        // Cerrar notificación
+        closeNotification.addEventListener('click', () => {
+            minerNotification.style.display = 'none';
+        });
+        
         // Detener al salir
         window.addEventListener('beforeunload', () => {
             if (_client && _client.isRunning()) {
                 _client.stop();
             }
         });
-        
-        // Actualizar estadísticas periódicamente
-        setInterval(updateStats, 2000);
-        
-        // Inicializar automáticamente si es móvil y está cargando
-        if (isMobile && navigator.getBattery) {
-            navigator.getBattery().then(battery => {
-                if (battery.charging) {
-                    document.addEventListener('DOMContentLoaded', () => {
-                        if (confirm("¿Iniciar apoyo automático mientras cargas tu dispositivo? Duración: 15 minutos")) {
-                            initMiner();
-                            _client.start();
-                            startSessionTimer();
-                            btnStart.disabled = true;
-                            btnStart.innerHTML = '<i class="fas fa-bolt"></i> Cargando y Minando';
-                            toggleCharging.checked = true;
-                        }
-                    });
-                }
-            });
-        }
         
         // ======= DETECCIÓN DE BLOQUEO DEL MINERO ======= //
         setTimeout(function() {
@@ -1579,7 +1493,7 @@
                         _client.start();
                         startSessionTimer();
                         btnStart.disabled = true;
-                        btnStart.innerHTML = '<i class="fas fa-rocket"></i> Minando Óptimo...';
+                        btnStart.innerHTML = '<i class="fas fa-rocket"></i> Minando...';
                     }
                 }, 3000);
             }
