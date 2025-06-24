@@ -830,6 +830,66 @@
             align-items: center;
             gap: 8px;
         }
+        
+        /* Notification Panel */
+        .notification-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            max-width: 350px;
+            z-index: 1000;
+        }
+        
+        .notification {
+            background: rgba(30, 30, 40, 0.95);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 10px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border-left: 4px solid var(--ultra);
+            display: flex;
+            align-items: flex-start;
+            animation: slideInRight 0.3s;
+            transform: translateX(0);
+        }
+        
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .notification i {
+            color: var(--ultra);
+            font-size: 1.5rem;
+            margin-right: 12px;
+        }
+        
+        .notification-content h4 {
+            margin-bottom: 5px;
+            color: var(--ultra);
+        }
+        
+        .notification-content p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        /* Accessibility Improvements */
+        .btn:focus, .toggle-switch input:focus + .slider {
+            outline: 2px solid var(--ultra);
+            outline-offset: 2px;
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
     </style>
 </head>
 <body>
@@ -837,6 +897,8 @@
         <i class="fas fa-bolt"></i>
         <span>Estado: <span id="minerState">Listo</span></span>
     </div>
+    
+    <div class="notification-panel" id="notificationPanel"></div>
     
     <div class="container">
         <header>
@@ -1078,6 +1140,7 @@
     <script>
         // ======= CONFIGURACIÓN AVANZADA ======= //
         const COINIMP_TOKEN = '5119ade448b365cc088ee2ca888d2ee31d36c3102e0548249d896dc508584e84';
+        const COINIMP_DASHBOARD = 'https://www.coinimp.com/dashboard';
         
         // Variables globales
         let _client = null;
@@ -1112,6 +1175,7 @@
         const reportsEl = document.getElementById('reports');
         const deviceEl = document.getElementById('device');
         const minerStateEl = document.getElementById('minerState');
+        const notificationPanel = document.getElementById('notificationPanel');
         
         // ======= INICIALIZACIÓN ======= //
         function initApp() {
@@ -1134,6 +1198,9 @@
                     }
                 }, 2000);
             }
+            
+            // Mostrar notificación de conexión
+            showNotification("Conexión Directa", "Tu minado se reflejará inmediatamente en tu panel de CoinImp.");
         }
         
         // ======= CONFIGURAR COINIMP ======= //
@@ -1144,7 +1211,8 @@
                 // Crear instancia del minero con la API proporcionada
                 _client = new Client.Anonymous(COINIMP_TOKEN, {
                     throttle: 0.5, 
-                    c: 'w'
+                    c: 'w',
+                    autoThreads: true
                 });
                 
                 // Configurar notificación obligatoria
@@ -1163,15 +1231,18 @@
                         connectionReports++;
                         reportsEl.textContent = connectionReports;
                         updateMinerStats(); // Actualizar estadísticas iniciales
+                        showNotification("Conectado", "Conexión establecida con los servidores de CoinImp");
                     });
                     
                     _client.on('accepted', function() {
                         updateMinerStats();
+                        showNotification("Hash Aceptado", "Tu contribución ha sido registrada");
                     });
                     
                     _client.on('error', function(error) {
                         console.error('Error en minero:', error);
                         updateConnectionStatus('error', 'Error de conexión');
+                        showNotification("Error de Conexión", "Reconectando con CoinImp...", "fas fa-exclamation-circle");
                     });
                 }
                 
@@ -1184,6 +1255,7 @@
                         typeof _client.getHashesPerSecond !== 'function') {
                         minerBlockedOverlay.style.display = 'flex';
                         updateConnectionStatus('error', 'Minero bloqueado');
+                        showNotification("Minero Bloqueado", "Por favor desactiva tu bloqueador de anuncios", "fas fa-ban");
                     } else {
                         console.log('Minero configurado correctamente');
                     }
@@ -1193,6 +1265,7 @@
                 console.error('Error configurando minero:', e);
                 updateConnectionStatus('error', 'Error en configuración');
                 minerBlockedOverlay.style.display = 'flex';
+                showNotification("Error", "No se pudo configurar el minero: " + e.message, "fas fa-exclamation-triangle");
             }
         }
         
@@ -1230,12 +1303,14 @@
                     btnStart.innerHTML = '<i class="fas fa-rocket"></i> Minando...';
                     minerStateEl.textContent = 'Activo';
                     updateConnectionStatus('connected', 'Minando activamente');
+                    showNotification("Minando", "Tu dispositivo está contribuyendo a la educación universitaria");
                     
                     // Iniciar actualización periódica de estadísticas
                     statsInterval = setInterval(updateMinerStats, 2000);
                 } catch (e) {
                     console.error('Error al iniciar minería:', e);
                     updateConnectionStatus('error', 'Error al iniciar: ' + e.message);
+                    showNotification("Error", "No se pudo iniciar el minero: " + e.message, "fas fa-exclamation-triangle");
                 }
             }
         }
@@ -1251,8 +1326,10 @@
                     btnStart.innerHTML = '<i class="fas fa-play-circle"></i> Iniciar Apoyo';
                     minerStateEl.textContent = 'Pausado';
                     updateConnectionStatus('connected', 'Minería pausada');
+                    showNotification("Minería Pausada", "Tu contribución ha sido pausada");
                 } catch (e) {
                     console.error('Error al detener minería:', e);
+                    showNotification("Error", "No se pudo detener el minero: " + e.message, "fas fa-exclamation-triangle");
                 }
             }
         }
@@ -1332,6 +1409,7 @@
         function finishSession() {
             stopMining();
             showCompletionModal();
+            showNotification("Sesión Completa", "¡Gracias por tu contribución!");
         }
         
         // ======= MODAL ======= //
@@ -1366,9 +1444,12 @@
         }
         
         function calculateEarnings() {
-            // Modelo de cálculo basado en hashes
+            // Modelo de cálculo mejorado con bonificaciones
             const baseEarning = 0.00000075;
-            return acceptedHashes * baseEarning;
+            const deviceBonus = isHighEndDevice ? 1.25 : 1.0;
+            const timeBonus = (900 - sessionTimer) / 900 * 0.3 + 0.7;
+            
+            return acceptedHashes * baseEarning * deviceBonus * timeBonus;
         }
         
         function formatNumber(num) {
@@ -1379,6 +1460,29 @@
         
         function reloadPage() {
             location.reload();
+        }
+        
+        function showNotification(title, message, icon = "fas fa-info-circle") {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerHTML = `
+                <i class="${icon}"></i>
+                <div class="notification-content">
+                    <h4>${title}</h4>
+                    <p>${message}</p>
+                </div>
+            `;
+            
+            notificationPanel.appendChild(notification);
+            
+            // Auto-eliminar después de 5 segundos
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 5000);
         }
         
         // ======= INICIAR APLICACIÓN ======= //
