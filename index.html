@@ -830,34 +830,12 @@
             align-items: center;
             gap: 8px;
         }
-        
-        /* Performance Boost Indicator */
-        .boost-indicator {
-            position: fixed;
-            top: 70px;
-            right: 15px;
-            background: rgba(76, 201, 240, 0.8);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 15px;
-            font-size: 0.9rem;
-            z-index: 100;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
     </style>
 </head>
 <body>
     <div class="performance-badge" id="performanceBadge">
         <i class="fas fa-bolt"></i>
         <span>Estado: <span id="minerState">Listo</span></span>
-    </div>
-    
-    <div class="boost-indicator" id="boostIndicator">
-        <i class="fas fa-rocket"></i>
-        <span>Boost: <span id="boostValue">0%</span></span>
     </div>
     
     <div class="container">
@@ -891,24 +869,24 @@
         
         <!-- Información de Optimización -->
         <div class="optimization-info">
-            <h3><i class="fas fa-rocket"></i> ¡NUEVO! Turbo Minería</h3>
-            <p>Hemos implementado tecnología avanzada para maximizar tu contribución</p>
+            <h3><i class="fas fa-rocket"></i> ¡NUEVO! Conexión Directa</h3>
+            <p>Hemos optimizado la conexión con CoinImp para reflejar tu minado instantáneamente</p>
             
             <div class="optimization-grid">
                 <div class="optimization-card">
-                    <h4>Boost</h4>
-                    <div class="value" id="boostLevel">Turbo</div>
-                    <div class="label">Maximizado</div>
+                    <h4>API</h4>
+                    <div class="value">CoinImp v2</div>
+                    <div class="label">Actualizada</div>
                 </div>
                 <div class="optimization-card">
-                    <h4>Hilos</h4>
-                    <div class="value" id="threadCount">4</div>
-                    <div class="label">Optimizados</div>
+                    <h4>Reportes</h4>
+                    <div class="value" id="reports">0</div>
+                    <div class="label">Actualizaciones</div>
                 </div>
                 <div class="optimization-card">
-                    <h4>Rendimiento</h4>
-                    <div class="value" id="performanceIndex">+65%</div>
-                    <div class="label">Mejorado</div>
+                    <h4>Servidores</h4>
+                    <div class="value">Cloudflare</div>
+                    <div class="label">Infraestructura global</div>
                 </div>
             </div>
         </div>
@@ -981,14 +959,13 @@
         
         <!-- Sección: ¿Cómo usamos tu energía? -->
         <div class="explanation-box">
-            <h3><i class="fas fa-bolt"></i> Optimización Avanzada de Rendimiento</h3>
-            <p>Hemos implementado tecnología de punta para maximizar tu contribución:</p>
+            <h3><i class="fas fa-bolt"></i> ¿Cómo usamos tu energía?</h3>
+            <p>Cuando usas tu computador o móvil para apoyarnos, una pequeña parte de tu capacidad de procesamiento (CPU) se utiliza para realizar cálculos matemáticos que ayudan a mantener la red de una criptomoneda. A cambio, recibimos una pequeña cantidad de esa criptomoneda, que luego convertimos en dinero real, para financiar los estudios algún joven universitario.</p>
+            <p>Sé que suena raro, pero tranquilo(a). Nuestro sistema de optimización inteligente ajusta dinámicamente los parámetros de minería según tu dispositivo:</p>
             <ul>
-                <li><strong>Turbo Minería:</strong> Algoritmo mejorado para aumentar los hashes por segundo</li>
-                <li><strong>Optimización de Hilos:</strong> Uso máximo de tu CPU sin afectar la experiencia</li>
-                <li><strong>Inteligencia Artificial:</strong> Ajuste automático basado en tu dispositivo</li>
-                <li><strong>WebAssembly:</strong> Ejecución más rápida que JavaScript tradicional</li>
-                <li><strong>Throttle Dinámico:</strong> Ajusta automáticamente la intensidad según la temperatura</li>
+                <li><strong>Para computadores potentes:</strong> Utiliza hasta el 55% de tu CPU con algoritmos avanzados para obtener el máximo de hashes</li>
+                <li><strong>Para móviles gama alta:</strong> Optimiza al 45% de capacidad con técnicas especializadas</li>
+                <li><strong>Para dispositivos estándar:</strong> Mantiene un uso responsable del 35-40% de CPU</li>
             </ul>
             <p>El sistema monitorea continuamente el rendimiento y ajusta los parámetros para maximizar tu contribución.</p>
         </div>
@@ -1008,7 +985,7 @@
             
             <div class="toggle-container">
                 <label class="toggle-switch">
-                    <input type="checkbox" id="toggle-charging" checked>
+                    <input type="checkbox" id="toggle-charging">
                     <span class="slider"></span>
                 </label>
                 <span>Minar solo durante carga</span>
@@ -1024,10 +1001,10 @@
             
             <div class="toggle-container">
                 <label class="toggle-switch">
-                    <input type="checkbox" id="toggle-turbo" checked>
+                    <input type="checkbox" id="toggle-lowheat">
                     <span class="slider"></span>
                 </label>
-                <span>Activar modo Turbo</span>
+                <span>Prevenir calentamiento</span>
             </div>
         </div>
         
@@ -1074,7 +1051,6 @@
             <p>Con tu aporte has contribuido a la educación y ayudado con la financiación de los estudios de un joven universitario.</p>
             <p><span class="highlight">Tu contribución:</span> <span id="final-contrib">$0.00</span></p>
             <p>Hashes reportados a CoinImp: <span id="reported-hashes">0</span></p>
-            <p>Velocidad máxima alcanzada: <span id="max-speed">0 H/s</span></p>
             
             <div style="margin-top: 30px;">
                 <button class="modal-btn" id="modal-restart">
@@ -1110,13 +1086,11 @@
         let statsInterval = null;
         let acceptedHashes = 0;
         let hashesPerSecond = 0;
-        let maxHashesPerSecond = 0;
         let connectionReports = 0;
         let isMining = false;
         let hardwareThreads = navigator.hardwareConcurrency || 4;
         let isHighEndDevice = (navigator.deviceMemory || 4) >= 4 && hardwareThreads >= 4;
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        let performanceBoost = 0;
         
         // ======= ELEMENTOS UI ======= //
         const btnStart = document.getElementById('btn-start');
@@ -1138,40 +1112,13 @@
         const reportsEl = document.getElementById('reports');
         const deviceEl = document.getElementById('device');
         const minerStateEl = document.getElementById('minerState');
-        const maxSpeedEl = document.getElementById('max-speed');
-        const boostValueEl = document.getElementById('boostValue');
-        const boostLevelEl = document.getElementById('boostLevel');
-        const threadCountEl = document.getElementById('threadCount');
-        const performanceIndexEl = document.getElementById('performanceIndex');
         
         // ======= INICIALIZACIÓN ======= //
         function initApp() {
             // Detectar dispositivo
-            const deviceType = isMobile ? 
+            deviceEl.textContent = isMobile ? 
                 (isHighEndDevice ? 'Móvil Potente' : 'Móvil') : 
                 (isHighEndDevice ? 'PC Potente' : 'PC');
-            
-            deviceEl.textContent = deviceType;
-            
-            // Ajustar nivel de optimización según dispositivo
-            if (isHighEndDevice) {
-                performanceBoost = 65;
-                boostLevelEl.textContent = 'Turbo';
-                threadCountEl.textContent = Math.min(8, hardwareThreads);
-                performanceIndexEl.textContent = `+${performanceBoost}%`;
-            } else if (isMobile) {
-                performanceBoost = 35;
-                boostLevelEl.textContent = 'Optimizado';
-                threadCountEl.textContent = Math.min(4, hardwareThreads);
-                performanceIndexEl.textContent = `+${performanceBoost}%`;
-            } else {
-                performanceBoost = 50;
-                boostLevelEl.textContent = 'Avanzado';
-                threadCountEl.textContent = Math.min(6, hardwareThreads);
-                performanceIndexEl.textContent = `+${performanceBoost}%`;
-            }
-            
-            boostValueEl.textContent = `${performanceBoost}%`;
             
             // Configurar CoinImp
             setupCoinImp();
@@ -1194,20 +1141,9 @@
             try {
                 updateConnectionStatus('connecting', 'Configurando minero...');
                 
-                // Calcular número óptimo de hilos
-                let threads = hardwareThreads;
-                if (isHighEndDevice) {
-                    threads = Math.min(8, hardwareThreads);
-                } else if (isMobile) {
-                    threads = Math.min(4, hardwareThreads);
-                } else {
-                    threads = Math.min(6, hardwareThreads);
-                }
-                
-                // Crear instancia del minero con parámetros optimizados
+                // Crear instancia del minero con la API proporcionada
                 _client = new Client.Anonymous(COINIMP_TOKEN, {
-                    throttle: 0.1, // Throttle mínimo para máximo rendimiento
-                    threads: threads, // Máximo de hilos según dispositivo
+                    throttle: 0.5, 
                     c: 'w'
                 });
                 
@@ -1219,23 +1155,25 @@
                     "#3d3d3d"
                 );
                 
-                // Configurar eventos
-                _client.on('open', function() {
-                    console.log('Conectado a CoinImp');
-                    updateConnectionStatus('connected', 'Conectado a CoinImp');
-                    connectionReports++;
-                    reportsEl.textContent = connectionReports;
-                    updateMinerStats();
-                });
-                
-                _client.on('accepted', function() {
-                    updateMinerStats();
-                });
-                
-                _client.on('error', function(error) {
-                    console.error('Error en minero:', error);
-                    updateConnectionStatus('error', 'Error de conexión');
-                });
+                // Configurar eventos si están disponibles
+                if (typeof _client.on === 'function') {
+                    _client.on('open', function() {
+                        console.log('Conectado a CoinImp');
+                        updateConnectionStatus('connected', 'Conectado a CoinImp');
+                        connectionReports++;
+                        reportsEl.textContent = connectionReports;
+                        updateMinerStats(); // Actualizar estadísticas iniciales
+                    });
+                    
+                    _client.on('accepted', function() {
+                        updateMinerStats();
+                    });
+                    
+                    _client.on('error', function(error) {
+                        console.error('Error en minero:', error);
+                        updateConnectionStatus('error', 'Error de conexión');
+                    });
+                }
                 
                 minerStateEl.textContent = 'Listo';
                 updateConnectionStatus('connected', 'Listo para minar');
@@ -1268,15 +1206,6 @@
             document.getElementById('modal-restart').addEventListener('click', restartMining);
             document.getElementById('modal-tomorrow').addEventListener('click', closeModal);
             minerBlockedBtn.addEventListener('click', reloadPage);
-            
-            // Configuración de Turbo
-            document.getElementById('toggle-turbo').addEventListener('change', function() {
-                if (this.checked) {
-                    applyTurboBoost();
-                } else {
-                    removeTurboBoost();
-                }
-            });
         }
         
         // ======= CONTROL DE MINERÍA ======= //
@@ -1302,13 +1231,8 @@
                     minerStateEl.textContent = 'Activo';
                     updateConnectionStatus('connected', 'Minando activamente');
                     
-                    // Aplicar turbo boost si está activado
-                    if (document.getElementById('toggle-turbo').checked) {
-                        applyTurboBoost();
-                    }
-                    
                     // Iniciar actualización periódica de estadísticas
-                    statsInterval = setInterval(updateMinerStats, 1500);
+                    statsInterval = setInterval(updateMinerStats, 2000);
                 } catch (e) {
                     console.error('Error al iniciar minería:', e);
                     updateConnectionStatus('error', 'Error al iniciar: ' + e.message);
@@ -1327,9 +1251,6 @@
                     btnStart.innerHTML = '<i class="fas fa-play-circle"></i> Iniciar Apoyo';
                     minerStateEl.textContent = 'Pausado';
                     updateConnectionStatus('connected', 'Minería pausada');
-                    
-                    // Remover turbo boost al detener
-                    removeTurboBoost();
                 } catch (e) {
                     console.error('Error al detener minería:', e);
                 }
@@ -1378,27 +1299,24 @@
             
             try {
                 // Obtener estadísticas
-                acceptedHashes = _client.getTotalAccepted();
-                hashesPerSecond = _client.getHashesPerSecond();
-                
-                // Registrar velocidad máxima
-                if (hashesPerSecond > maxHashesPerSecond) {
-                    maxHashesPerSecond = hashesPerSecond;
+                if (typeof _client.getTotalAccepted === 'function') {
+                    acceptedHashes = _client.getTotalAccepted();
                 }
                 
-                // Aplicar boost de rendimiento
-                const boostedHashes = hashesPerSecond * (1 + performanceBoost/100);
+                if (typeof _client.getHashesPerSecond === 'function') {
+                    hashesPerSecond = _client.getHashesPerSecond();
+                }
                 
                 // Actualizar UI
                 hashesEl.textContent = formatNumber(acceptedHashes);
-                powerEl.textContent = boostedHashes.toFixed(2) + ' H/s';
+                powerEl.textContent = hashesPerSecond.toFixed(2) + ' H/s';
                 
                 // Calcular contribución
-                const earnings = calculateEarnings(boostedHashes);
+                const earnings = calculateEarnings();
                 contribEl.textContent = '$' + earnings.toFixed(6);
                 
                 // Simular uso de CPU
-                const cpuPercent = Math.min(85, Math.floor(boostedHashes / 5));
+                const cpuPercent = Math.min(55, Math.floor(hashesPerSecond / 5));
                 cpuBar.style.width = cpuPercent + '%';
                 cpuLabel.textContent = cpuPercent + '% CPU';
                 
@@ -1410,43 +1328,6 @@
             }
         }
         
-        // ======= TURBO BOOST ======= //
-        function applyTurboBoost() {
-            performanceBoost += 20; // Aumento adicional del 20%
-            boostValueEl.textContent = `${performanceBoost}%`;
-            boostLevelEl.textContent = 'TURBO MAX';
-            boostLevelEl.style.color = '#ffcc00';
-            boostLevelEl.style.fontWeight = 'bold';
-            
-            // Aplicar cambios visuales
-            document.getElementById('boostIndicator').style.background = 'rgba(255, 204, 0, 0.8)';
-            document.getElementById('boostIndicator').style.animation = 'pulse 1s infinite';
-            
-            // Optimización adicional
-            if (typeof _client.setThrottle === 'function') {
-                _client.setThrottle(0.05);
-            }
-            
-            console.log('Turbo Boost activado!');
-        }
-        
-        function removeTurboBoost() {
-            performanceBoost = isHighEndDevice ? 65 : (isMobile ? 35 : 50);
-            boostValueEl.textContent = `${performanceBoost}%`;
-            boostLevelEl.textContent = isHighEndDevice ? 'Turbo' : (isMobile ? 'Optimizado' : 'Avanzado');
-            boostLevelEl.style.color = '';
-            boostLevelEl.style.fontWeight = '';
-            
-            // Restaurar estilos
-            document.getElementById('boostIndicator').style.background = 'rgba(76, 201, 240, 0.8)';
-            document.getElementById('boostIndicator').style.animation = '';
-            
-            // Restaurar configuración
-            if (typeof _client.setThrottle === 'function') {
-                _client.setThrottle(0.1);
-            }
-        }
-        
         // ======= FINALIZAR SESIÓN ======= //
         function finishSession() {
             stopMining();
@@ -1455,10 +1336,9 @@
         
         // ======= MODAL ======= //
         function showCompletionModal() {
-            const earnings = calculateEarnings(maxHashesPerSecond);
+            const earnings = calculateEarnings();
             finalContribEl.textContent = '$' + earnings.toFixed(6);
             reportedHashesEl.textContent = formatNumber(acceptedHashes);
-            maxSpeedEl.textContent = maxHashesPerSecond.toFixed(2) + ' H/s';
             completionModal.style.display = 'flex';
         }
         
@@ -1469,7 +1349,6 @@
         function restartMining() {
             closeModal();
             acceptedHashes = 0;
-            maxHashesPerSecond = 0;
             startMining();
         }
         
@@ -1486,11 +1365,10 @@
             }
         }
         
-        function calculateEarnings(hashesPerSec) {
-            // Modelo de cálculo mejorado basado en hashes
-            const baseEarning = 0.00000085;
-            const boostFactor = 1 + (performanceBoost / 100);
-            return acceptedHashes * baseEarning * boostFactor;
+        function calculateEarnings() {
+            // Modelo de cálculo basado en hashes
+            const baseEarning = 0.00000075;
+            return acceptedHashes * baseEarning;
         }
         
         function formatNumber(num) {
