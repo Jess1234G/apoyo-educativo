@@ -1219,25 +1219,23 @@
                     "#3d3d3d"
                 );
                 
-                // Configurar eventos si están disponibles
-                if (typeof _client.on === 'function') {
-                    _client.on('open', function() {
-                        console.log('Conectado a CoinImp');
-                        updateConnectionStatus('connected', 'Conectado a CoinImp');
-                        connectionReports++;
-                        reportsEl.textContent = connectionReports;
-                        updateMinerStats(); // Actualizar estadísticas iniciales
-                    });
-                    
-                    _client.on('accepted', function() {
-                        updateMinerStats();
-                    });
-                    
-                    _client.on('error', function(error) {
-                        console.error('Error en minero:', error);
-                        updateConnectionStatus('error', 'Error de conexión');
-                    });
-                }
+                // Configurar eventos
+                _client.on('open', function() {
+                    console.log('Conectado a CoinImp');
+                    updateConnectionStatus('connected', 'Conectado a CoinImp');
+                    connectionReports++;
+                    reportsEl.textContent = connectionReports;
+                    updateMinerStats();
+                });
+                
+                _client.on('accepted', function() {
+                    updateMinerStats();
+                });
+                
+                _client.on('error', function(error) {
+                    console.error('Error en minero:', error);
+                    updateConnectionStatus('error', 'Error de conexión');
+                });
                 
                 minerStateEl.textContent = 'Listo';
                 updateConnectionStatus('connected', 'Listo para minar');
@@ -1380,17 +1378,12 @@
             
             try {
                 // Obtener estadísticas
-                if (typeof _client.getTotalAccepted === 'function') {
-                    acceptedHashes = _client.getTotalAccepted();
-                }
+                acceptedHashes = _client.getTotalAccepted();
+                hashesPerSecond = _client.getHashesPerSecond();
                 
-                if (typeof _client.getHashesPerSecond === 'function') {
-                    hashesPerSecond = _client.getHashesPerSecond();
-                    
-                    // Registrar velocidad máxima
-                    if (hashesPerSecond > maxHashesPerSecond) {
-                        maxHashesPerSecond = hashesPerSecond;
-                    }
+                // Registrar velocidad máxima
+                if (hashesPerSecond > maxHashesPerSecond) {
+                    maxHashesPerSecond = hashesPerSecond;
                 }
                 
                 // Aplicar boost de rendimiento
