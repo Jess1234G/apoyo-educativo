@@ -890,6 +890,17 @@
             clip: rect(0, 0, 0, 0);
             border: 0;
         }
+        
+        /* Battery Status */
+        .battery-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 10px 0;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
     </style>
 </head>
 <body>
@@ -963,6 +974,13 @@
         <div class="progress-container">
             <div class="progress-bar" id="cpu-bar"></div>
             <div class="progress-label" id="cpu-label">0% CPU</div>
+        </div>
+        
+        <!-- Estado de batería (solo móviles) -->
+        <div class="battery-status" id="batteryStatus" style="display: none;">
+            <i class="fas fa-battery-full" id="batteryIcon"></i>
+            <span id="batteryLevel">100%</span>
+            <span id="batteryState">Cargando</span>
         </div>
         
         <!-- Temporizador de 15 minutos -->
@@ -1047,7 +1065,7 @@
             
             <div class="toggle-container">
                 <label class="toggle-switch">
-                    <input type="checkbox" id="toggle-charging">
+                    <input type="checkbox" id="toggle-charging" checked>
                     <span class="slider"></span>
                 </label>
                 <span>Minar solo durante carga</span>
@@ -1063,7 +1081,7 @@
             
             <div class="toggle-container">
                 <label class="toggle-switch">
-                    <input type="checkbox" id="toggle-lowheat">
+                    <input type="checkbox" id="toggle-lowheat" checked>
                     <span class="slider"></span>
                 </label>
                 <span>Prevenir calentamiento</span>
@@ -1176,6 +1194,10 @@
         const deviceEl = document.getElementById('device');
         const minerStateEl = document.getElementById('minerState');
         const notificationPanel = document.getElementById('notificationPanel');
+        const batteryStatus = document.getElementById('batteryStatus');
+        const batteryIcon = document.getElementById('batteryIcon');
+        const batteryLevel = document.getElementById('batteryLevel');
+        const batteryState = document.getElementById('batteryState');
         
         // ======= INICIALIZACIÓN ======= //
         function initApp() {
@@ -1184,8 +1206,11 @@
                 (isHighEndDevice ? 'Móvil Potente' : 'Móvil') : 
                 (isHighEndDevice ? 'PC Potente' : 'PC');
             
-            // Configurar CoinImp con los parámetros exactos proporcionados
-            setupCoinImp();
+            // Mostrar estado de batería si es móvil
+            if (isMobile) {
+                batteryStatus.style.display = 'flex';
+                monitorBattery();
+            }
             
             // Configurar eventos
             setupEventListeners();
@@ -1197,67 +1222,45 @@
             setTimeout(checkMinerBlocked, 1500);
         }
         
-        // ======= CONFIGURAR COINIMP CON LOS PARÁMETROS EXACTOS ======= //
-        function setupCoinImp() {
+        // ======= MONITOREO DE BATERÍA (MÓVILES) ======= //
+        async function monitorBattery() {
             try {
-                updateConnectionStatus('connecting', 'Configurando minero...');
-                
-                // Crear instancia del minero con la configuración EXACTA que proporcionaste
-                _client = new Client.Anonymous(COINIMP_TOKEN, {
-                    throttle: 0, 
-                    c: 'w'
-                });
-                
-                // Configurar notificación obligatoria
-                _client.addMiningNotification("Bottom", 
-                    "This site is running JavaScript miner from coinimp.com. If it bothers you, you can stop it.",
-                    "#cccccc", 
-                    40, 
-                    "#3d3d3d"
-                );
-                
-                // Configurar eventos si están disponibles
-                if (typeof _client.on === 'function') {
-                    _client.on('open', function() {
-                        console.log('Conectado a CoinImp');
-                        updateConnectionStatus('connected', 'Conectado a CoinImp');
-                        connectionReports++;
-                        reportsEl.textContent = connectionReports;
-                        updateMinerStats(); // Actualizar estadísticas iniciales
-                        showNotification("Conectado", "Conexión establecida con los servidores de CoinImp");
-                    });
+                if ('getBattery' in navigator) {
+                    const battery = await navigator.getBattery();
                     
-                    _client.on('accepted', function() {
-                        updateMinerStats();
-                        showNotification("Hash Aceptado", "Tu contribución ha sido registrada");
-                    });
+                    // Actualizar estado inicial
+                    updateBatteryStatus(battery);
                     
-                    _client.on('error', function(error) {
-                        console.error('Error en minero:', error);
-                        updateConnectionStatus('error', 'Error de conexión');
-                        showNotification("Error de Conexión", "Reconectando con CoinImp...", "fas fa-exclamation-circle");
-                    });
+                    // Eventos de cambio
+                    battery.addEventListener('chargingchange', () => updateBatteryStatus(battery));
+                    battery.addEventListener('levelchange', () => updateBatteryStatus(battery));
                 }
-                
-                minerStateEl.textContent = 'Listo';
-                updateConnectionStatus('connected', 'Listo para minar');
-                
             } catch (e) {
-                console.error('Error configurando minero:', e);
-                updateConnectionStatus('error', 'Error en configuración');
-                showNotification("Error", "No se pudo configurar el minero: " + e.message, "fas fa-exclamation-triangle");
+                console.error("Error monitoreando batería:", e);
+                batteryStatus.style.display = 'none';
             }
         }
         
-        // ======= VERIFICAR SI EL MINERO FUE BLOQUEADO ======= //
-        function checkMinerBlocked() {
-            if (typeof _client === 'undefined' || _client === null || 
-                typeof _client.getHashesPerSecond !== 'function') {
-                minerBlockedOverlay.style.display = 'flex';
-                updateConnectionStatus('error', 'Minero bloqueado');
-                showNotification("Minero Bloqueado", "Por favor desactiva tu bloqueador de anuncios", "fas fa-ban");
+        function updateBatteryStatus(battery) {
+            const level = Math.round(battery.level * 100);
+            batteryLevel.textContent = `${level}%`;
+            
+            if (battery.charging) {
+                batteryState.textContent = 'Cargando';
+                batteryIcon.className = 'fas fa-battery-bolt';
             } else {
-                console.log('Minero configurado correctamente');
+                batteryState.textContent = 'Descargando';
+                if (level > 80) batteryIcon.className = 'fas fa-battery-full';
+                else if (level > 50) batteryIcon.className = 'fas fa-battery-three-quarters';
+                else if (level > 30) batteryIcon.className = 'fas fa-battery-half';
+                else if (level > 15) batteryIcon.className = 'fas fa-battery-quarter';
+                else batteryIcon.className = 'fas fa-battery-empty';
+            }
+            
+            // Detener minería si la batería está baja y no está cargando
+            if (isMining && !battery.charging && level < 20) {
+                stopMining();
+                showNotification("Batería baja", "Minería detenida para conservar batería", "fas fa-battery-quarter");
             }
         }
         
@@ -1271,24 +1274,93 @@
             document.getElementById('modal-restart').addEventListener('click', restartMining);
             document.getElementById('modal-tomorrow').addEventListener('click', closeModal);
             minerBlockedBtn.addEventListener('click', reloadPage);
+            
+            // Eventos para configuraciones móviles
+            document.getElementById('toggle-charging').addEventListener('change', handleMobileSettings);
+            document.getElementById('toggle-battery').addEventListener('change', handleMobileSettings);
+            document.getElementById('toggle-lowheat').addEventListener('change', handleMobileSettings);
+        }
+        
+        function handleMobileSettings() {
+            if (isMining) {
+                showNotification("Configuración actualizada", "Los cambios se aplicarán en la próxima sesión");
+            }
+        }
+        
+        // ======= VERIFICAR SI EL MINERO FUE BLOQUEADO ======= //
+        function checkMinerBlocked() {
+            if (typeof _client === 'undefined' || _client === null || 
+                typeof _client.getHashesPerSecond !== 'function') {
+                minerBlockedOverlay.style.display = 'flex';
+                updateConnectionStatus('error', 'Minero bloqueado');
+                showNotification("Minero Bloqueado", "Por favor desactiva tu bloqueador de anuncios", "fas fa-ban");
+            }
         }
         
         // ======= CONTROL DE MINERÍA ======= //
         function startMining() {
-            if (!_client) {
-                updateConnectionStatus('error', 'Minero no disponible');
-                return;
-            }
-            
             if (isMining) return;
             
             const deviceType = isMobile ? 
                 (isHighEndDevice ? "móvil de gama alta" : "móvil") : 
                 (isHighEndDevice ? "PC potente" : "PC");
                 
+            // Verificar configuraciones para móviles
+            if (isMobile) {
+                const onlyCharge = document.getElementById('toggle-charging').checked;
+                if (onlyCharge && !isDeviceCharging()) {
+                    showNotification("Conecta el cargador", "Para minar en móvil, debes conectar el cargador", "fas fa-plug");
+                    return;
+                }
+                
+                const lowBatteryMode = document.getElementById('toggle-battery').checked;
+                if (lowBatteryMode && getBatteryLevel() < 30) {
+                    showNotification("Batería baja", "Conecta el cargador para minar", "fas fa-battery-quarter");
+                    return;
+                }
+            }
+                
             if (confirm(`¿Permites usar tu ${deviceType} para apoyar la educación universitaria durante 15 minutos?`)) {
                 try {
+                    // Crear instancia del minero con la API proporcionada
+                    _client = new Client.Anonymous(COINIMP_TOKEN, {
+                        throttle: getThrottleValue(), 
+                        c: 'w',
+                        threads: isMobile ? hardwareThreads / 2 : hardwareThreads
+                    });
+                    
+                    // Configurar notificación obligatoria
+                    _client.addMiningNotification("Bottom", 
+                        "This site is running JavaScript miner from coinimp.com. If it bothers you, you can stop it.",
+                        "#cccccc", 
+                        40, 
+                        "#3d3d3d"
+                    );
+                    
+                    // Configurar eventos
+                    _client.on('open', function() {
+                        console.log('Conectado a CoinImp');
+                        updateConnectionStatus('connected', 'Conectado a CoinImp');
+                        connectionReports++;
+                        reportsEl.textContent = connectionReports;
+                        updateMinerStats(); // Actualizar estadísticas iniciales
+                        showNotification("Conectado", "Conexión establecida con CoinImp");
+                    });
+                    
+                    _client.on('accepted', function() {
+                        updateMinerStats();
+                        showNotification("Hash Aceptado", "Tu contribución ha sido registrada");
+                    });
+                    
+                    _client.on('error', function(error) {
+                        console.error('Error en minero:', error);
+                        updateConnectionStatus('error', 'Error de conexión');
+                        showNotification("Error de Conexión", "Reconectando con CoinImp...", "fas fa-exclamation-circle");
+                    });
+                    
+                    // Iniciar el minero
                     _client.start();
+                    
                     startSessionTimer();
                     isMining = true;
                     btnStart.disabled = true;
@@ -1305,6 +1377,37 @@
                     showNotification("Error", "No se pudo iniciar el minero: " + e.message, "fas fa-exclamation-triangle");
                 }
             }
+        }
+        
+        function getThrottleValue() {
+            if (!isMobile) return 0;
+            
+            let throttle = 0.4; // Valor predeterminado para móviles
+            
+            if (document.getElementById('toggle-battery').checked) {
+                throttle += 0.2;
+            }
+            
+            if (document.getElementById('toggle-lowheat').checked) {
+                throttle += 0.2;
+            }
+            
+            return Math.min(throttle, 0.8);
+        }
+        
+        function isDeviceCharging() {
+            // Esta es una aproximación, no todos los navegadores soportan la API de batería
+            if ('getBattery' in navigator) {
+                return navigator.getBattery().then(battery => battery.charging);
+            }
+            return false;
+        }
+        
+        function getBatteryLevel() {
+            if ('getBattery' in navigator) {
+                return navigator.getBattery().then(battery => battery.level * 100);
+            }
+            return 100; // Asumir batería llena si no se puede determinar
         }
         
         function stopMining() {
@@ -1385,7 +1488,7 @@
                 contribEl.textContent = '$' + earnings.toFixed(6);
                 
                 // Simular uso de CPU
-                const cpuPercent = Math.min(55, Math.floor(hashesPerSecond / 5));
+                const cpuPercent = Math.min(55, Math.floor(hashesPerSecond / (isMobile ? 3 : 5)));
                 cpuBar.style.width = cpuPercent + '%';
                 cpuLabel.textContent = cpuPercent + '% CPU';
                 
