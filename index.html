@@ -1187,7 +1187,6 @@
     <script>
         // ======= CONFIGURACIÓN MEJORADA ======= //
         const COINIMP_TOKEN = '5119ade448b365cc088ee2ca888d2ee31d36c3102e0548249d896dc508584e84';
-        const COINIMP_DASHBOARD = 'https://www.coinimp.com/dashboard';
         const VERIFICATION_INTERVAL = 15000; // 15 segundos para verificar el reporte
         
         // Variables globales mejoradas
@@ -1247,8 +1246,19 @@
             // Mostrar notificación de conexión mejorada
             showNotification("Conexión Directa", "Minado optimizado para tu dispositivo");
             
-            // Iniciar configuración del minero con mejoras
-            setupCoinImp();
+            // Configurar detección de minero bloqueado
+            setupMinerBlockedCheck();
+        }
+        
+        // ======= DETECCIÓN DE MINERO BLOQUEADO ======= //
+        function setupMinerBlockedCheck() {
+            // Verificar si el minero fue bloqueado después de 1 segundo
+            setTimeout(() => {
+                if (typeof Client === 'undefined' || typeof Client.Anonymous !== 'function') {
+                    minerBlockedOverlay.style.display = 'flex';
+                    showNotification("Minero Bloqueado", "Por favor desactiva tu bloqueador", "fas fa-ban");
+                }
+            }, 1000);
         }
         
         // ======= CONFIGURAR COINIMP MEJORADO ======= //
@@ -1335,17 +1345,6 @@
                 updateConnectionStatus('error', 'Error en configuración: ' + e.message);
                 serverStatusEl.textContent = "Error de configuración";
                 showNotification("Error", "No se pudo configurar el minero: " + e.message, "fas fa-exclamation-triangle");
-                
-                // Verificar si el minero fue bloqueado
-                setTimeout(checkMinerBlocked, 1000);
-            }
-        }
-        
-        // ======= VERIFICAR SI EL MINERO ESTÁ BLOQUEADO ======= //
-        function checkMinerBlocked() {
-            if (typeof _client === 'undefined' || _client === null) {
-                minerBlockedOverlay.style.display = 'flex';
-                showNotification("Minero Bloqueado", "Por favor desactiva tu bloqueador", "fas fa-ban");
             }
         }
         
@@ -1464,6 +1463,7 @@
                 
             if (confirm(`¿Permites usar tu ${deviceType} para apoyar la educación universitaria durante 15 minutos?`)) {
                 try {
+                    // Si el minero no está configurado, configurarlo
                     if (!_client) {
                         setupCoinImp();
                     }
@@ -1639,16 +1639,6 @@
         
         // ======= INICIAR APLICACIÓN MEJORADA ======= //
         window.addEventListener('DOMContentLoaded', initApp);
-    </script>
-    
-    <!-- Bloque para verificar si el minero fue bloqueado -->
-    <script>
-        setTimeout(function(){
-            if(typeof _client === 'undefined' || _client === null)
-            {
-                minerBlockedOverlay.style.display = 'flex';
-            }
-        }, 1000);
     </script>
 </body>
 </html>
