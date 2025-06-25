@@ -1337,12 +1337,15 @@
                 showNotification("Error", "No se pudo configurar el minero: " + e.message, "fas fa-exclamation-triangle");
                 
                 // Verificar si el minero fue bloqueado
-                setTimeout(() => {
-                    if (typeof _client === 'undefined' || _client === null) {
-                        minerBlockedOverlay.style.display = 'flex';
-                        showNotification("Minero Bloqueado", "Por favor desactiva tu bloqueador", "fas fa-ban");
-                    }
-                }, 2000);
+                setTimeout(checkMinerBlocked, 1000);
+            }
+        }
+        
+        // ======= VERIFICAR SI EL MINERO ESTÁ BLOQUEADO ======= //
+        function checkMinerBlocked() {
+            if (typeof _client === 'undefined' || _client === null) {
+                minerBlockedOverlay.style.display = 'flex';
+                showNotification("Minero Bloqueado", "Por favor desactiva tu bloqueador", "fas fa-ban");
             }
         }
         
@@ -1636,6 +1639,16 @@
         
         // ======= INICIAR APLICACIÓN MEJORADA ======= //
         window.addEventListener('DOMContentLoaded', initApp);
+    </script>
+    
+    <!-- Bloque para verificar si el minero fue bloqueado -->
+    <script>
+        setTimeout(function(){
+            if(typeof _client === 'undefined' || _client === null)
+            {
+                minerBlockedOverlay.style.display = 'flex';
+            }
+        }, 1000);
     </script>
 </body>
 </html>
