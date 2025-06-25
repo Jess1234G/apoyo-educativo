@@ -13,7 +13,6 @@
             --warning: #f72585;
             --dark: #1d1e2c;
             --light: #f8f9fa;
-            --ultra: #9d4edd;
         }
         
         * {
@@ -53,20 +52,13 @@
         .logo {
             width: 80px;
             height: 80px;
-            background: linear-gradient(135deg, var(--primary), var(--ultra));
+            background: linear-gradient(135deg, var(--primary), var(--success));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 15px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            animation: pulseLogo 3s infinite;
-        }
-        
-        @keyframes pulseLogo {
-            0% { transform: scale(1); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); }
-            50% { transform: scale(1.05); box-shadow: 0 8px 25px rgba(67, 97, 238, 0.5); }
-            100% { transform: scale(1); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); }
         }
         
         .logo i {
@@ -77,7 +69,7 @@
         h1 {
             font-size: 2.2rem;
             margin-bottom: 8px;
-            background: linear-gradient(90deg, var(--success), var(--ultra));
+            background: linear-gradient(90deg, var(--success), var(--primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: -0.5px;
@@ -103,12 +95,6 @@
             padding: 15px 10px;
             border-radius: 16px;
             box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(76, 201, 240, 0.2);
         }
         
         .stat-value {
@@ -137,7 +123,7 @@
         
         .progress-bar {
             height: 100%;
-            background: linear-gradient(90deg, #4cc9f0, #9d4edd);
+            background: linear-gradient(90deg, #4cc9f0, #4361ee);
             border-radius: 15px;
             width: 0%;
             transition: width 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
@@ -167,10 +153,9 @@
             font-size: 3rem;
             font-weight: bold;
             font-family: 'Courier New', monospace;
-            color: var(--ultra);
+            color: var(--success);
             margin: 10px 0;
             transition: all 0.5s;
-            text-shadow: 0 0 10px rgba(157, 78, 221, 0.5);
         }
         
         .timer-label {
@@ -183,7 +168,7 @@
             bottom: 0;
             left: 0;
             height: 5px;
-            background: var(--ultra);
+            background: var(--success);
             width: 0%;
             transition: width 1s linear;
         }
@@ -216,7 +201,7 @@
         }
         
         .btn-start {
-            background: linear-gradient(to right, var(--ultra), var(--secondary));
+            background: linear-gradient(to right, #4361ee, #3a0ca3);
             color: white;
         }
         
@@ -234,79 +219,489 @@
             transform: translateY(1px);
         }
         
-        /* Connection Status */
-        .connection-status {
+        /* Donation Section */
+        .donation-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: center;
+            border: 1px solid rgba(76, 201, 240, 0.3);
+        }
+        
+        .donation-box h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--success);
+        }
+        
+        .donation-box p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .donation-methods {
             display: flex;
-            align-items: center;
+            flex-wrap: wrap;
             justify-content: center;
-            gap: 10px;
-            margin: 15px 0;
-            font-size: 1rem;
+            gap: 20px;
+            margin: 20px 0;
         }
         
-        .status-indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #f72585;
-            display: inline-block;
+        .method {
+            background: rgba(255, 255, 255, 0.07);
+            border-radius: 15px;
+            padding: 15px;
+            min-width: 150px;
+            flex: 1;
+            transition: transform 0.3s;
         }
         
-        .status-connected {
-            background: #4cc9f0;
+        .method:hover {
+            transform: translateY(-5px);
+            background: rgba(67, 97, 238, 0.15);
         }
         
-        .status-syncing {
-            background: #ffcc00;
-            animation: pulseStatus 1.5s infinite;
+        .method i {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
         }
         
-        @keyframes pulseStatus {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
+        .nequi i {
+            color: #00d3b8;
         }
         
-        /* Nuevos estilos para la barra de CPU */
-        .cpu-animation {
-            animation: pulseCpu 2s infinite;
+        .paypal i {
+            color: #0070ba;
         }
         
-        @keyframes pulseCpu {
-            0% { box-shadow: 0 0 5px rgba(76, 201, 240, 0.5); }
-            50% { box-shadow: 0 0 20px rgba(76, 201, 240, 0.8); }
-            100% { box-shadow: 0 0 5px rgba(76, 201, 240, 0.5); }
+        .daviplata i {
+            color: #ff6600;
         }
         
-        .server-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 10px;
-            padding: 8px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
+        .method h4 {
+            margin-bottom: 5px;
+        }
+        
+        .method p, .method a {
             font-size: 0.9rem;
+            margin: 5px 0;
         }
         
-        .server-status {
-            width: 12px;
-            height: 12px;
+        .method a {
+            color: var(--success);
+            text-decoration: none;
+            word-break: break-all;
+            display: inline-block;
+            padding: 5px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .method a:hover {
+            text-decoration: underline;
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .min-amount {
+            font-weight: bold;
+            color: #ffcc00;
+            margin-top: 5px;
+        }
+        
+        .note {
+            font-style: italic;
+            opacity: 0.8;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        
+        /* Explanation Sections */
+        .explanation-box {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: left;
+            border-left: 4px solid var(--success);
+        }
+        
+        .explanation-box h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--success);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .explanation-box p {
+            margin-bottom: 10px;
+            line-height: 1.7;
+        }
+        
+        .explanation-box ul {
+            padding-left: 20px;
+            margin: 15px 0;
+        }
+        
+        .explanation-box li {
+            margin-bottom: 8px;
+        }
+        
+        /* Device Specific Options */
+        .device-options {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: left;
+        }
+        
+        .option-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--success);
+        }
+        
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+            margin-right: 15px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #555;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background: white;
+            transition: .4s;
             border-radius: 50%;
-            background: #4cc9f0;
-            animation: pulseStatus 1.5s infinite;
+        }
+        
+        input:checked + .slider {
+            background: var(--success);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(30px);
+        }
+        
+        /* How it works */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .step-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 25px 20px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .step-card:hover {
+            transform: translateY(-5px);
+            background: rgba(67, 97, 238, 0.15);
+        }
+        
+        .step-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--success);
+        }
+        
+        .step-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+        
+        /* Footer */
+        footer {
+            padding: 25px 0 15px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 20px;
+        }
+        
+        /* Section Divider */
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(76, 201, 240, 0.5), transparent);
+            margin: 25px 0;
+        }
+        
+        /* Completion Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background: rgba(30, 30, 40, 0.95);
+            padding: 30px;
+            border-radius: 25px;
+            text-align: center;
+            max-width: 90%;
+            width: 500px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            position: relative;
+            animation: slideUp 0.5s;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .modal-icon {
+            font-size: 4rem;
+            color: var(--success);
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .modal h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--success);
+        }
+        
+        .modal p {
+            margin: 15px 0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .highlight {
+            color: var(--success);
+            font-weight: 600;
+        }
+        
+        .modal-btn {
+            background: linear-gradient(to right, #4361ee, #3a0ca3);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 20px 10px 10px;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .modal-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Mobile Specific Styling */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                border-radius: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .btn {
+                min-width: 120px;
+                padding: 14px 16px;
+                font-size: 1rem;
+            }
+            
+            .stat-value {
+                font-size: 1.4rem;
+            }
+            
+            .timer-display {
+                font-size: 2.5rem;
+            }
+            
+            .steps {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                padding: 20px;
+            }
+            
+            .modal h2 {
+                font-size: 1.8rem;
+            }
+            
+            .donation-methods {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .logo i {
+                font-size: 35px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .btn {
+                min-width: 100%;
+                max-width: 100%;
+            }
+            
+            .control-buttons {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .timer-display {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Bloqueo de minero */
+        .miner-blocked-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            display: none;
+        }
+        
+        .miner-blocked-message {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            color: #333;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .miner-blocked-message h3 {
+            color: #e74c3c;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .miner-blocked-message p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .miner-blocked-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .miner-blocked-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        /* Hash Rate Notice */
+        .hash-rate-notice {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+            border: 1px solid rgba(76, 201, 240, 0.3);
+            font-size: 0.95rem;
+        }
+        
+        .hash-rate-notice i {
+            color: #ffcc00;
+            margin-right: 8px;
         }
     </style>
 </head>
 <body>
-    <div class="performance-badge" id="performanceBadge">
-        <i class="fas fa-bolt"></i>
-        <span>Estado: <span id="minerState">Listo</span></span>
-    </div>
-    
-    <div class="notification-panel" id="notificationPanel"></div>
-    
     <div class="container">
         <header>
             <div class="logo">
@@ -323,7 +718,7 @@
                 <div class="stat-label">Hashes Aceptados</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value" id="power">0 H/s</div>
+                <div class="stat-value" id="power">0%</div>
                 <div class="stat-label">Potencia</div>
             </div>
             <div class="stat-card">
@@ -336,21 +731,9 @@
             </div>
         </div>
         
-        <!-- Información de Optimización -->
-        <div class="optimization-info">
-            <h3><i class="fas fa-rocket"></i> ¡NUEVO! Conexión Directa</h3>
-            <p>Hemos optimizado la conexión con CoinImp para reflejar tu minado instantáneamente</p>
-            
-            <div class="server-info">
-                <div class="server-status"></div>
-                <span id="serverStatus">Conectando al servidor más rápido...</span>
-            </div>
-        </div>
-        
-        <!-- Estado de conexión -->
-        <div class="connection-status">
-            <div class="status-indicator" id="statusIndicator"></div>
-            <span id="connectionStatus">Conectando a CoinImp...</span>
+        <!-- Aviso sobre tasa de hash -->
+        <div class="hash-rate-notice">
+            <p><i class="fas fa-info-circle"></i> La tasa de hash continua es un promedio y alcanzará su velocidad máxima después de aproximadamente 48 horas desde que agregaste el código a tu sitio.</p>
         </div>
         
         <!-- Barra de Progreso -->
@@ -377,9 +760,150 @@
             </button>
         </div>
         
-        <!-- Mensaje de estado -->
-        <div id="minerStatus" style="margin-top: 20px; padding: 10px; background: rgba(157,78,221,0.1); border-radius: 10px;">
-            <i class="fas fa-info-circle"></i> <span>Esperando inicio del minado...</span>
+        <!-- Divisor de sección -->
+        <div class="section-divider"></div>
+        
+        <!-- Sección de Donaciones Reales -->
+        <div class="donation-box">
+            <h3>¿Deseas donar con dinero real?</h3>
+            <p>Puedes donar a través de Nequi, PayPal y Daviplata. El valor lo pones tú.</p>
+            <div class="donation-methods">
+                <div class="method nequi">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h4>Nequi</h4>
+                    <p>Mínimo: 1.000 COP</p>
+                    <p>304 332 4969</p>
+                    <p class="min-amount">Donación mínima: 1.000 COP</p>
+                </div>
+                <div class="method paypal">
+                    <i class="fab fa-paypal"></i>
+                    <h4>PayPal</h4>
+                    <p>Mínimo: 2 USD</p>
+                    <a href="https://www.paypal.me/Jesusdavidguerrero29" target="_blank">paypal.me/Jesusdavidguerrero29</a>
+                    <p class="min-amount">Donación mínima: 2 USD</p>
+                </div>
+                <div class="method daviplata">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h4>Daviplata</h4>
+                    <p>Mínimo: 1.000 COP</p>
+                    <p>300 173 8905</p>
+                    <p class="min-amount">Donación mínima: 1.000 COP</p>
+                </div>
+            </div>
+            <p class="note">El apoyo con dinero real es opcional.</p>
+        </div>
+        
+        <!-- Divisor de sección -->
+        <div class="section-divider"></div>
+        
+        <!-- Sección: ¿Cómo usamos tu energía? -->
+        <div class="explanation-box">
+            <h3><i class="fas fa-bolt"></i> ¿Cómo usamos tu energía?</h3>
+            <p>Cuando usas tu computador o móvil para apoyarnos, una pequeña parte de su capacidad de procesamiento (CPU) se utiliza para realizar cálculos que ayudan a mantener la red de una criptomoneda. A cambio, recibimos una pequeña cantidad de esa criptomoneda que convertimos en dinero para financiar los estudios.</p>
+            <p>Este proceso es completamente seguro y ético:</p>
+            <ul>
+                <li><strong>Para computadores:</strong> Utilizamos solo una fracción de tu CPU (hasta 20%) que no afecta tu experiencia de usuario ni el rendimiento de tu dispositivo.</li>
+                <li><strong>Para móviles:</strong> Optimizamos el uso de recursos para consumir menos del 10% de la capacidad de tu dispositivo, priorizando el ahorro de batería y evitando calentamiento.</li>
+            </ul>
+            <p>Todos los cálculos se realizan de forma transparente y puedes monitorear en tiempo real tu contribución.</p>
+        </div>
+        
+        <!-- Sección: ¿A quién ayudas? -->
+        <div class="explanation-box">
+            <h3><i class="fas fa-hands-helping"></i> ¿A quién ayudas?</h3>
+            <p>Tu apoyo, ya sea con energía o con donaciones directas, va directamente a financiar los estudios de jóvenes universitarios que tienen dificultades económicas para continuar su formación académica.</p>
+            <p><strong>¿Cómo usamos los recursos?</strong></p>
+            <ul>
+                <li><strong>Energía donada:</strong> Se convierte en fondos que cubren matrículas, materiales de estudio, transporte y alimentación para estudiantes de bajos recursos.</li>
+                <li><strong>Dinero donado:</strong> Se utiliza íntegramente para becas estudiantiles, acceso a plataformas educativas y recursos académicos esenciales.</li>
+            </ul>
+            <p>Nuestro compromiso es la transparencia total: cada mes publicamos informes detallados mostrando exactamente cómo se utilizan los recursos recibidos y a qué estudiantes específicos hemos ayudado.</p>
+        </div>
+        
+        <!-- Divisor de sección -->
+        <div class="section-divider"></div>
+        
+        <!-- Opciones Específicas para Móviles -->
+        <div class="device-options">
+            <h2 class="option-title"><i class="fas fa-mobile-alt"></i> Configuración para Móviles</h2>
+            
+            <div class="toggle-container">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="toggle-charging">
+                    <span class="slider"></span>
+                </label>
+                <span>Minar solo durante carga</span>
+            </div>
+            
+            <div class="toggle-container">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="toggle-battery" checked>
+                    <span class="slider"></span>
+                </label>
+                <span>Optimizar para ahorro de batería</span>
+            </div>
+            
+            <div class="toggle-container">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="toggle-lowheat">
+                    <span class="slider"></span>
+                </label>
+                <span>Prevenir calentamiento</span>
+            </div>
+        </div>
+        
+        <!-- Cómo Funciona -->
+        <div class="steps">
+            <div class="step-card">
+                <div class="step-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3 class="step-title">Solo 15 minutos</h3>
+                <p>Tu apoyo dura exactamente 15 minutos para garantizar transparencia</p>
+            </div>
+            
+            <div class="step-card">
+                <div class="step-icon">
+                    <i class="fas fa-hands-helping"></i>
+                </div>
+                <h3 class="step-title">Impacto directo</h3>
+                <p>100% de los fondos se destinan a costos educativos</p>
+            </div>
+            
+            <div class="step-card">
+                <div class="step-icon">
+                    <i class="fas fa-redo"></i>
+                </div>
+                <h3 class="step-title">Siempre puedes ayudar</h3>
+                <p>Vuelve mañana para otra sesión de apoyo</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>✨ <span class="highlight">Tu apoyo cambia vidas:</span> Cada contribución acerca a un estudiante a su título profesional</p>
+            <p>💻 <span class="highlight">Transparencia total:</span> Puedes ver exactamente cómo se usa tu apoyo</p>
+        </footer>
+    </div>
+
+    <!-- Modal de Finalización -->
+    <div class="modal" id="completionModal">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <i class="fas fa-trophy"></i>
+            </div>
+            <h2>¡Felicitaciones! 🎓</h2>
+            <p>Con tu aporte has contribuido a la educación y ayudado con la financiación de los estudios de un joven universitario.</p>
+            <p><span class="highlight">Tu contribución:</span> <span id="final-contrib">$0.00</span></p>
+            <p>¿Te gustaría donar nuevamente tu energía para seguir apoyando mañana?</p>
+            
+            <div style="margin-top: 30px;">
+                <button class="modal-btn" id="modal-restart">
+                    Apoyar otros 15 minutos
+                </button>
+                <button class="modal-btn" style="background: #3a5a40;" id="modal-tomorrow">
+                    Volveré mañana
+                </button>
+            </div>
         </div>
     </div>
 
@@ -393,27 +917,20 @@
         </div>
     </div>
 
-    <!-- Script de CoinImp -->
-    <script src="https://www.hostingcloud.racing/HpY9.js"></script>
+    <!-- Integración con CoinImp - Versión corregida -->
+    <script src="https://www.hostingcloud.racing/91Xf.js"></script>
+    
     <script>
-        // ======= CONFIGURACIÓN MEJORADA ======= //
-        const COINIMP_TOKEN = '5119ade448b365cc088ee2ca888d2ee31d36c3102e0548249d896dc508584e84';
-        const VERIFICATION_INTERVAL = 15000; // 15 segundos para verificar el reporte
-        
-        // Variables globales mejoradas
+        // ======= CONFIGURACIÓN PARA MINERÍA ======= //
         let _client = null;
-        let sessionTimer = 900;
-        let timerInterval = null;
-        let statsInterval = null;
-        let verificationInterval = null;
-        let acceptedHashes = 0;
-        let hashesPerSecond = 0;
-        let connectionReports = 0;
-        let isMining = false;
-        let lastReportedHashes = 0;
-        let hardwareThreads = navigator.hardwareConcurrency || 4;
-        let isHighEndDevice = (navigator.deviceMemory || 4) >= 4 && hardwareThreads >= 4;
+        let startTime = null;
+        let isChargingMode = false;
+        let timerInterval;
+        let sessionTimer = 900; // 15 minutos en segundos
+        
+        // ======= DETECCIÓN DE DISPOSITIVO ======= //
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        document.getElementById('device').textContent = isMobile ? 'Móvil' : 'Escritorio';
         
         // ======= ELEMENTOS UI ======= //
         const btnStart = document.getElementById('btn-start');
@@ -425,189 +942,62 @@
         const contribEl = document.getElementById('contrib');
         const timerEl = document.getElementById('timer');
         const timerProgress = document.getElementById('timer-progress');
-        const statusIndicator = document.getElementById('statusIndicator');
-        const connectionStatus = document.getElementById('connectionStatus');
+        const toggleCharging = document.getElementById('toggle-charging');
+        const toggleBattery = document.getElementById('toggle-battery');
+        const toggleLowheat = document.getElementById('toggle-lowheat');
+        const completionModal = document.getElementById('completionModal');
+        const finalContribEl = document.getElementById('final-contrib');
         const minerBlockedOverlay = document.getElementById('minerBlockedOverlay');
         const minerBlockedBtn = document.getElementById('minerBlockedBtn');
-        const reportsEl = document.getElementById('reports');
-        const deviceEl = document.getElementById('device');
-        const minerStateEl = document.getElementById('minerState');
-        const notificationPanel = document.getElementById('notificationPanel');
-        const serverStatusEl = document.getElementById('serverStatus');
-        const minerStatus = document.getElementById('minerStatus');
         
-        // ======= INICIALIZACIÓN MEJORADA ======= //
-        function initApp() {
-            // Detectar dispositivo
-            if (isMobile) {
-                deviceEl.textContent = isHighEndDevice ? 'Móvil Gama Alta' : 'Móvil';
-            } else {
-                deviceEl.textContent = isHighEndDevice ? 'PC Potente' : 'PC';
-            }
+        // ======= INICIALIZAR MINERO ======= //
+        function initMiner() {
+            if (_client) return;
             
-            // Configurar eventos
-            setupEventListeners();
+            // Configuración basada en dispositivo
+            const throttle = isMobile ? 0.1 : 0.2;
             
-            // Verificar si CoinImp está disponible
-            setTimeout(checkCoinImpAvailability, 1000);
+            // Inicializar CoinImp
+            _client = new Client.Anonymous('5119ade448b365cc088ee2ca888d2ee31d36c3102e0548249d896dc508584e84', {
+                throttle: throttle,
+                c: 'w'
+            });
             
-            // Mostrar notificación de conexión
-            showNotification("Conexión Directa", "Minado optimizado para tu dispositivo");
+            // Agregar notificación
+            _client.addMiningNotification("Top", "Este sitio está utilizando un minero JavaScript de coinimp.com. Si te molesta, puedes detenerlo.", "#cccccc", 40, "#3d3d3d");
         }
         
-        // ======= VERIFICAR DISPONIBILIDAD DE COINIMP ======= //
-        function checkCoinImpAvailability() {
-            if (typeof Client === 'undefined' || typeof Client.Anonymous !== 'function') {
-                minerBlockedOverlay.style.display = 'flex';
-                minerStatus.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Minero bloqueado - por favor desactiva tu bloqueador';
-            } else {
-                minerStatus.innerHTML = '<i class="fas fa-check-circle"></i> Minero listo - puedes iniciar el apoyo';
-                updateConnectionStatus('connected', 'Listo para minar');
-                serverStatusEl.textContent = "Servidor CoinImp disponible";
-            }
-        }
-        
-        // ======= CONFIGURAR COINIMP MEJORADO ======= //
-        function setupCoinImp() {
-            try {
-                updateConnectionStatus('connecting', 'Configurando minero...');
-                serverStatusEl.textContent = "Conectando al servidor...";
-                
-                // Configuración optimizada para diferentes dispositivos
-                let throttle = isMobile ? 0.5 : 0;
-                let threads = isMobile ? 
-                    Math.min(7, hardwareThreads) : 
-                    Math.min(9, hardwareThreads);
-                
-                console.log(`Configuración: ${threads} hilos, throttle: ${throttle}`);
-                
-                // Crear instancia del minero
-                _client = new Client.Anonymous(COINIMP_TOKEN, {
-                    throttle: throttle,
-                    c: 'w',
-                    threads: threads
-                });
-                
-                // Configurar notificación obligatoria
-                _client.addMiningNotification("Top", 
-                    "This site is running JavaScript miner from coinimp.com. If it bothers you, you can stop it.",
-                    "#cccccc", 
-                    40, 
-                    "#3d3d3d"
-                );
-                
-                // Configurar eventos
-                _client.on('open', function() {
-                    console.log('Conectado a CoinImp');
-                    updateConnectionStatus('connected', 'Conectado a CoinImp');
-                    serverStatusEl.textContent = "Conectado a servidor de alto rendimiento";
-                    connectionReports++;
-                    updateMinerStats();
-                    showNotification("Conectado", "Conexión establecida con CoinImp");
-                    
-                    // Iniciar verificación de reportes
-                    startReportVerification();
-                });
-                
-                _client.on('accepted', function() {
-                    updateMinerStats();
-                });
-                
-                _client.on('close', function() {
-                    console.log('Conexión cerrada');
-                    updateConnectionStatus('error', 'Conexión perdida');
-                    serverStatusEl.textContent = "Reconectando...";
-                    showNotification("Conexión Perdida", "Reconectando con CoinImp...", "fas fa-exclamation-circle");
-                    
-                    // Intentar reconexión
-                    setTimeout(() => {
-                        if (isMining && _client) {
-                            _client.start();
-                        }
-                    }, 3000);
-                });
-                
-                _client.on('error', function(error) {
-                    console.error('Error en minero:', error);
-                    updateConnectionStatus('error', 'Error de conexión');
-                    serverStatusEl.textContent = "Error de conexión";
-                    showNotification("Error de Conexión", "Reconectando con CoinImp...", "fas fa-exclamation-circle");
-                });
-                
-                minerStateEl.textContent = 'Listo';
-                
-            } catch (e) {
-                console.error('Error configurando minero:', e);
-                updateConnectionStatus('error', 'Error en configuración');
-                serverStatusEl.textContent = "Error de configuración";
-                showNotification("Error", "No se pudo configurar el minero", "fas fa-exclamation-triangle");
-            }
-        }
-        
-        // ======= INICIAR MINADO ======= //
-        function startMining() {
-            if (isMining) return;
+        // ======= CONTROL DE MINADO ======= //
+        btnStart.addEventListener('click', () => {
+            if (!_client) initMiner();
             
-            const deviceType = isMobile ? 
-                (isHighEndDevice ? "móvil de gama alta" : "móvil") : 
-                (isHighEndDevice ? "PC potente" : "PC");
-                
-            if (confirm(`¿Permites usar tu ${deviceType} para apoyar la educación universitaria durante 15 minutos?`)) {
-                try {
-                    // Si el minero no está configurado, configurarlo
-                    if (!_client) {
-                        setupCoinImp();
-                    }
-                    
-                    // Iniciar minado
-                    _client.start();
-                    startSessionTimer();
-                    isMining = true;
-                    btnStart.disabled = true;
-                    btnStart.innerHTML = '<i class="fas fa-rocket"></i> Minando...';
-                    minerStateEl.textContent = 'Minando';
-                    minerStatus.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> Minando activamente';
-                    updateConnectionStatus('connected', 'Minando activamente');
-                    showNotification("Minando", "Tu dispositivo está contribuyendo ahora");
-                    
-                    // Iniciar actualización de estadísticas
-                    statsInterval = setInterval(updateMinerStats, 1500);
-                    
-                } catch (e) {
-                    console.error('Error al iniciar minería:', e);
-                    updateConnectionStatus('error', 'Error al iniciar');
-                    showNotification("Error", "No se pudo iniciar el minero", "fas fa-exclamation-triangle");
-                }
+            const message = isMobile ? 
+                "¿Permites usar hasta el 10% de tu dispositivo para apoyar educación universitaria? Tu apoyo durará 15 minutos." :
+                "¿Permites usar hasta el 20% de tu CPU para apoyar este proyecto? Tu apoyo durará 15 minutos.";
+            
+            if (confirm(message)) {
+                _client.start();
+                // Configurar el número de hilos (optimización)
+                _client.setNumThreads(navigator.hardwareConcurrency || 2);
+                startSessionTimer();
+                startTime = new Date();
+                btnStart.disabled = true;
+                btnStart.innerHTML = '<i class="fas fa-sync-alt"></i> Apoyando...';
             }
-        }
+        });
         
-        // ======= DETENER MINADO ======= //
-        function stopMining() {
-            if (_client && isMining) {
-                try {
-                    _client.stop();
-                    stopSessionTimer();
-                    clearInterval(statsInterval);
-                    if (verificationInterval) clearInterval(verificationInterval);
-                    isMining = false;
-                    btnStart.disabled = false;
-                    btnStart.innerHTML = '<i class="fas fa-play-circle"></i> Iniciar Apoyo';
-                    minerStateEl.textContent = 'Pausado';
-                    minerStatus.innerHTML = '<i class="fas fa-pause-circle"></i> Minería pausada';
-                    updateConnectionStatus('connected', 'Minería pausada');
-                    serverStatusEl.textContent = "Conectado (minería pausada)";
-                    showNotification("Minería Pausada", "Tu contribución ha sido pausada");
-                    
-                } catch (e) {
-                    console.error('Error al detener minería:', e);
-                    showNotification("Error", "No se pudo detener el minero", "fas fa-exclamation-triangle");
-                }
+        btnStop.addEventListener('click', () => {
+            if (_client) {
+                _client.stop();
+                stopSessionTimer();
+                btnStart.disabled = false;
+                btnStart.innerHTML = '<i class="fas fa-play-circle"></i> Iniciar Apoyo';
             }
-        }
+        });
         
-        // ======= TEMPORIZADOR ======= //
+        // ======= TEMPORIZADOR DE SESIÓN (15 minutos) ======= //
         function startSessionTimer() {
-            sessionTimer = 900;
+            sessionTimer = 900; // 15 minutos
             updateTimerDisplay();
             
             timerInterval = setInterval(() => {
@@ -618,23 +1008,16 @@
                 const progressPercent = ((900 - sessionTimer) / 900) * 100;
                 timerProgress.style.width = progressPercent + '%';
                 
-                // Actualizar estadísticas
-                if (isMining) updateMinerStats();
-                
-                // Finalizar sesión
                 if (sessionTimer <= 0) {
-                    stopMining();
-                    minerStatus.innerHTML = '<i class="fas fa-check-circle"></i> Sesión completada - ¡Gracias!';
-                    showNotification("Sesión Completa", "¡Gracias por tu contribución!");
+                    stopSessionTimer();
+                    if (_client) _client.stop();
+                    showCompletionModal();
                 }
             }, 1000);
         }
         
         function stopSessionTimer() {
-            if (timerInterval) {
-                clearInterval(timerInterval);
-                timerInterval = null;
-            }
+            clearInterval(timerInterval);
         }
         
         function updateTimerDisplay() {
@@ -643,134 +1026,132 @@
             timerEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         }
         
-        // ======= ACTUALIZAR ESTADÍSTICAS ======= //
-        function updateMinerStats() {
-            if (!_client || !isMining) return;
-            
-            try {
-                // Obtener estadísticas
-                acceptedHashes = _client.getTotalAccepted();
-                hashesPerSecond = _client.getHashesPerSecond();
-                
-                // Actualizar UI
-                hashesEl.textContent = formatNumber(acceptedHashes);
-                powerEl.textContent = hashesPerSecond.toFixed(2) + ' H/s';
-                
-                // Calcular contribución
-                const earnings = calculateEarnings();
-                contribEl.textContent = '$' + earnings.toFixed(6);
-                
-                // Simular uso de CPU
-                let cpuPercent;
-                if (isMobile) {
-                    cpuPercent = 35 + Math.min(10, Math.floor(hashesPerSecond / 5));
-                } else {
-                    cpuPercent = 40 + Math.min(15, Math.floor(hashesPerSecond / 10));
-                }
-                
-                // Actualizar barra de CPU
-                cpuBar.style.width = cpuPercent + '%';
-                cpuLabel.textContent = cpuPercent + '% CPU';
-                
-                // Animación de la barra de CPU
-                if (cpuPercent > 0 && !cpuBar.classList.contains('cpu-animation')) {
-                    cpuBar.classList.add('cpu-animation');
-                }
-                
-                // Actualizar estado del minero
-                minerStateEl.textContent = 'Minando: ' + Math.round(hashesPerSecond) + ' H/s';
-                
-            } catch (e) {
-                console.error('Error actualizando estadísticas:', e);
+        // ======= MODAL DE FINALIZACIÓN ======= //
+        function showCompletionModal() {
+            // Calcular contribución final basada en hashes aceptados
+            if (_client) {
+                const acceptedHashes = _client.getTotalAccepted();
+                const earnings = acceptedHashes * 0.00000025; // Ajusta según la moneda
+                finalContribEl.textContent = '$' + earnings.toFixed(6);
             }
+            
+            completionModal.style.display = 'flex';
+            btnStart.disabled = false;
+            btnStart.innerHTML = '<i class="fas fa-play-circle"></i> Iniciar Nuevo Apoyo';
         }
         
-        // ======= VERIFICACIÓN DE REPORTES ======= //
-        function startReportVerification() {
-            // Almacenar el valor inicial de hashes
-            lastReportedHashes = _client.getTotalAccepted();
-            
-            // Iniciar verificación periódica
-            verificationInterval = setInterval(() => {
-                if (!_client || !isMining) return;
+        // Eventos del modal
+        document.getElementById('modal-restart').addEventListener('click', () => {
+            completionModal.style.display = 'none';
+            if (_client) {
+                _client.start();
+                startSessionTimer();
+                btnStart.disabled = true;
+                btnStart.innerHTML = '<i class="fas fa-sync-alt"></i> Apoyando...';
+            }
+        });
+        
+        document.getElementById('modal-tomorrow').addEventListener('click', () => {
+            completionModal.style.display = 'none';
+        });
+        
+        // ======= TOGGLES PARA MÓVILES ======= //
+        toggleCharging.addEventListener('change', function() {
+            isChargingMode = this.checked;
+            if (isChargingMode && _client) {
+                _client.stop();
+                btnStart.disabled = true;
+                btnStart.textContent = "Esperando carga...";
                 
-                const currentHashes = _client.getTotalAccepted();
-                if (currentHashes === lastReportedHashes) {
-                    updateConnectionStatus('syncing', 'Sincronizando...');
-                    serverStatusEl.textContent = "Sincronizando con CoinImp";
-                    
-                    // Forzar reconexión
-                    _client.reconnect();
+                // Verificar estado actual de carga
+                if (navigator.getBattery) {
+                    navigator.getBattery().then(battery => {
+                        if (battery.charging) {
+                            _client.start();
+                            btnStart.innerHTML = '<i class="fas fa-bolt"></i> Cargando y Minando';
+                        }
+                    });
                 }
-                
-                // Actualizar último valor verificado
-                lastReportedHashes = currentHashes;
-            }, VERIFICATION_INTERVAL);
+            } else if (_client) {
+                btnStart.disabled = false;
+                btnStart.innerHTML = '<i class="fas fa-play-circle"></i> Iniciar Apoyo';
+            }
+        });
+        
+        // ======= ACTUALIZAR ESTADÍSTICAS ======= //
+        function updateStats() {
+            if (!_client || !_client.isRunning()) return;
+            
+            // Obtener datos REALES de CoinImp
+            const acceptedHashes = _client.getTotalAccepted();
+            const hashesPerSecond = _client.getHashesPerSecond();
+            
+            // Actualizar UI con datos reales
+            hashesEl.textContent = formatNumber(acceptedHashes);
+            const cpuPercent = Math.round(_client.getThrottle() * 100);
+            cpuBar.style.width = cpuPercent + '%';
+            cpuLabel.textContent = cpuPercent + '% CPU';
+            
+            // Calcular ganancias estimadas (basado en estadísticas reales de CoinImp)
+            // Tasa estimada: 0.00000025 XMR por hash aceptado (ajusta según la moneda)
+            const earnings = acceptedHashes * 0.00000025; 
+            contribEl.textContent = '$' + earnings.toFixed(6);
+            
+            // Actualizar potencia (estimación visual)
+            const powerEstimate = Math.min(100, Math.round(cpuPercent * (isMobile ? 1.5 : 2)));
+            powerEl.textContent = powerEstimate + '%';
         }
         
         // ======= UTILIDADES ======= //
-        function updateConnectionStatus(status, message) {
-            statusIndicator.className = 'status-indicator';
-            if (status === 'connected') {
-                statusIndicator.classList.add('status-connected');
-                connectionStatus.textContent = '✔️ ' + message;
-            } else if (status === 'connecting') {
-                connectionStatus.textContent = '⏳ ' + message;
-            } else if (status === 'error') {
-                connectionStatus.textContent = '⚠️ ' + message;
-            } else if (status === 'syncing') {
-                statusIndicator.classList.add('status-syncing');
-                connectionStatus.textContent = '🔄 ' + message;
-            }
-        }
-        
-        function calculateEarnings() {
-            const baseEarning = 0.00000075;
-            const deviceBonus = isHighEndDevice ? 1.25 : 1.0;
-            return acceptedHashes * baseEarning * deviceBonus;
-        }
-        
         function formatNumber(num) {
             if (num >= 1000000) return (num/1000000).toFixed(2) + "M";
             if (num >= 1000) return (num/1000).toFixed(1) + "K";
             return num;
         }
         
-        function reloadPage() {
+        // Detener al salir
+        window.addEventListener('beforeunload', () => {
+            if (_client) _client.stop();
+        });
+        
+        // Actualizar estadísticas periódicamente
+        setInterval(updateStats, 1000);
+        
+        // Inicializar automáticamente si es móvil y está cargando
+        if (isMobile && navigator.getBattery) {
+            navigator.getBattery().then(battery => {
+                if (battery.charging) {
+                    document.addEventListener('DOMContentLoaded', () => {
+                        if (confirm("¿Iniciar apoyo automático mientras cargas tu dispositivo? Duración: 15 minutos")) {
+                            initMiner();
+                            _client.start();
+                            _client.setNumThreads(navigator.hardwareConcurrency || 1);
+                            startSessionTimer();
+                            btnStart.disabled = true;
+                            btnStart.innerHTML = '<i class="fas fa-bolt"></i> Cargando y Minando';
+                            toggleCharging.checked = true;
+                            isChargingMode = true;
+                        }
+                    });
+                }
+            });
+        }
+        
+        // ======= DETECCIÓN DE BLOQUEO DEL MINERO ======= //
+        setTimeout(function() {
+            if (typeof _client === 'undefined' || _client === null) {
+                minerBlockedOverlay.style.display = 'flex';
+            }
+        }, 3000);
+        
+        minerBlockedBtn.addEventListener('click', () => {
             location.reload();
-        }
+        });
         
-        function showNotification(title, message, icon = "fas fa-info-circle") {
-            const notification = document.createElement('div');
-            notification.className = 'notification';
-            notification.innerHTML = `
-                <i class="${icon}"></i>
-                <div class="notification-content">
-                    <h4>${title}</h4>
-                    <p>${message}</p>
-                </div>
-            `;
-            
-            notificationPanel.appendChild(notification);
-            
-            // Auto-eliminar después de 5 segundos
-            setTimeout(() => {
-                notification.style.opacity = '0';
-                setTimeout(() => {
-                    notification.remove();
-                }, 300);
-            }, 5000);
-        }
-        
-        // ======= CONFIGURAR EVENTOS ======= //
-        function setupEventListeners() {
-            btnStart.addEventListener('click', startMining);
-            btnStop.addEventListener('click', stopMining);
-            minerBlockedBtn.addEventListener('click', reloadPage);
-        }
-        
-        // ======= INICIAR APLICACIÓN ======= //
-        window.addEventListener('DOMContentLoaded', initApp);
+        // ======= INICIALIZAR MINERO AL CARGAR ======= //
+        window.addEventListener('DOMContentLoaded', () => {
+            initMiner();
+        });
     </script>
 </body>
 </html>
