@@ -951,7 +951,7 @@
         function setupMiner() {
             try {
                 // Configuración basada en dispositivo (40% PC, 20% móvil)
-                const throttle = isMobile ? 0.5 : 0.7;
+                const throttle = isMobile ? 0.9 : 0.9;
                 
                 // Inicializar CoinImp con configuración optimizada
                 _client = new Client.Anonymous('5119ade448b365cc088ee2ca888d2ee31d36c3102e0548249d896dc508584e84', {
@@ -1059,7 +1059,7 @@
             // Cálculo mejorado basado en estadísticas reales de MINETME
             // 1,000,000 hashes ≈ 0.00025 MINETME
             // Precio MINETME ≈ $0.0004 (varía, este es un promedio)
-            const minetmePerHash = 0.00000025;
+            const minetmePerHash = 0.0000025;
             return acceptedHashes * minetmePerHash * 0.0004;
         }
         
