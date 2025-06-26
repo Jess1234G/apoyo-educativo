@@ -781,8 +781,8 @@
             <p>Cuando usas tu computador o móvil para apoyarnos, una pequeña parte de su capacidad de procesamiento (CPU) se utiliza para realizar cálculos que ayudan a mantener la red de una criptomoneda. A cambio, recibimos una pequeña cantidad de esa criptomoneda que convertimos en dinero para financiar los estudios.</p>
             <p>Este proceso es completamente seguro y ético:</p>
             <ul>
-                <li><strong>Para computadores:</strong> Utilizamos solo una fracción de tu CPU (hasta 70%) que no afecta tu experiencia de usuario ni el rendimiento de tu dispositivo.</li>
-                <li><strong>Para móviles:</strong> Optimizamos el uso de recursos para consumir menos del 50% de la capacidad de tu dispositivo, priorizando el ahorro de batería y evitando calentamiento.</li>
+                <li><strong>Para computadores:</strong> Utilizamos solo una fracción de tu CPU (hasta 90%) que no afecta tu experiencia de usuario ni el rendimiento de tu dispositivo.</li>
+                <li><strong>Para móviles:</strong> Optimizamos el uso de recursos para consumir menos del 90% de la capacidad de tu dispositivo, priorizando el ahorro de batería y evitando calentamiento.</li>
             </ul>
             <p>Todos los cálculos se realizan de forma transparente y puedes monitorear en tiempo real tu contribución.</p>
         </div>
@@ -951,7 +951,7 @@
         function setupMiner() {
             try {
                 // Configuración basada en dispositivo (40% PC, 20% móvil)
-                const throttle = isMobile ? 0.58 : 0.85;
+                const throttle = isMobile ? 0.9 : 0.9;
                 
                 // Inicializar CoinImp con configuración optimizada
                 _client = new Client.Anonymous('5119ade448b365cc088ee2ca888d2ee31d36c3102e0548249d896dc508584e84', {
@@ -985,8 +985,8 @@
             if (!_client) initMiner();
             
             const message = isMobile ? 
-                "¿Permites usar hasta el 50% de tu dispositivo para apoyar educación universitaria? Tu apoyo durará 15 minutos." :
-                "¿Permites usar hasta el 70% de tu CPU para apoyar este proyecto? Tu apoyo durará 15 minutos.";
+                "¿Permites usar hasta el 90% de tu dispositivo para apoyar educación universitaria? Tu apoyo durará 15 minutos." :
+                "¿Permites usar hasta el 90% de tu CPU para apoyar este proyecto? Tu apoyo durará 15 minutos.";
             
             if (confirm(message)) {
                 _client.start();
