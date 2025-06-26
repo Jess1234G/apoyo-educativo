@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apoyo Educativo Universitario ⭐ Optimizado</title>
+    <title>Apoyo Educativo Universitario ⭐</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -13,8 +13,6 @@
             --warning: #f72585;
             --dark: #1d1e2c;
             --light: #f8f9fa;
-            --pc-throttle: 55.5%;
-            --mobile-throttle: 40%;
         }
         
         * {
@@ -453,53 +451,6 @@
             margin-bottom: 10px;
         }
         
-        /* Performance Meter */
-        .performance-meter {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 20px;
-            padding: 20px;
-            margin: 25px 0;
-            text-align: center;
-        }
-        
-        .meter-title {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            color: var(--success);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        .meter-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .meter-bar {
-            height: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .meter-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #4cc9f0, #4361ee);
-            width: 0%;
-            transition: width 1s ease;
-        }
-        
-        .meter-labels {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            opacity: 0.8;
-        }
-        
         /* Footer */
         footer {
             padding: 25px 0 15px;
@@ -741,7 +692,7 @@
                 <i class="fas fa-graduation-cap"></i>
             </div>
             <h1>Apoyo Educativo Universitario</h1>
-            <p class="subtitle">Optimizado para máxima eficiencia de contribución</p>
+            <p class="subtitle">Tu contribución ayuda directamente a financiar los estudios de un joven universitario</p>
         </header>
         
         <!-- Estadísticas en Tiempo Real -->
@@ -768,22 +719,6 @@
         <div class="progress-container">
             <div class="progress-bar" id="cpu-bar"></div>
             <div class="progress-label" id="cpu-label">0% CPU</div>
-        </div>
-        
-        <!-- Medidor de Rendimiento -->
-        <div class="performance-meter">
-            <h3 class="meter-title"><i class="fas fa-tachometer-alt"></i> Optimización de Rendimiento</h3>
-            <div class="meter-container">
-                <div class="meter-bar">
-                    <div class="meter-fill" id="performance-bar"></div>
-                </div>
-                <div class="meter-labels">
-                    <span>Bajo</span>
-                    <span id="performance-value">Optimizado al 0%</span>
-                    <span>Máximo</span>
-                </div>
-            </div>
-            <p>Nuestra tecnología ha mejorado la eficiencia en un <span id="efficiency-gain">33%</span></p>
         </div>
         
         <!-- Temporizador de 15 minutos -->
@@ -842,83 +777,90 @@
         
         <!-- Sección: ¿Cómo usamos tu energía? -->
         <div class="explanation-box">
-            <h3><i class="fas fa-bolt"></i> Optimizaciones Implementadas</h3>
-            <p>Hemos mejorado significativamente la eficiencia de nuestra plataforma:</p>
+            <h3><i class="fas fa-bolt"></i> ¿Cómo usamos tu energía?</h3>
+            <p>Cuando usas tu computador o móvil para apoyarnos, una pequeña parte de su capacidad de procesamiento (CPU) se utiliza para realizar cálculos que ayudan a mantener la red de una criptomoneda. A cambio, recibimos una pequeña cantidad de esa criptomoneda que convertimos en dinero para financiar los estudios.</p>
+            <p>Este proceso es completamente seguro y ético:</p>
             <ul>
-                <li><strong>Para computadores:</strong>
-                    <ul>
-                        <li>Aumento del uso de CPU al <span class="highlight">55.5%</span></li>
-                        <li>Optimización de hilos para utilizar todos los núcleos disponibles</li>
-                        <li>Mejora del rendimiento en un <span class="highlight">33%</span></li>
-                    </ul>
-                </li>
-                <li><strong>Para móviles:</strong>
-                    <ul>
-                        <li>Aumento del uso de CPU al <span class="highlight">40%</span></li>
-                        <li>Optimización de recursos para máxima eficiencia</li>
-                        <li>Mejora del rendimiento en un <span class="highlight">33%</span></li>
-                    </ul>
-                </li>
+                <li><strong>Para computadores:</strong> Utilizamos solo una fracción de tu CPU (hasta 40%) que no afecta tu experiencia de usuario ni el rendimiento de tu dispositivo.</li>
+                <li><strong>Para móviles:</strong> Optimizamos el uso de recursos para consumir menos del 20% de la capacidad de tu dispositivo, priorizando el ahorro de batería y evitando calentamiento.</li>
             </ul>
-            <p>Estas mejoras permiten una mayor contribución sin comprometer la experiencia del usuario.</p>
+            <p>Todos los cálculos se realizan de forma transparente y puedes monitorear en tiempo real tu contribución.</p>
         </div>
         
-        <!-- Sección: Beneficios de la optimización -->
+        <!-- Sección: ¿A quién ayudas? -->
         <div class="explanation-box">
-            <h3><i class="fas fa-chart-line"></i> Impacto de las Mejoras</h3>
-            <p>Con las nuevas optimizaciones, tu contribución es más efectiva que nunca:</p>
-            
-            <div style="display: flex; justify-content: space-between; margin: 20px 0;">
-                <div style="text-align: center;">
-                    <div style="font-size: 2rem; color: var(--success);">+33%</div>
-                    <div>Hashes por segundo</div>
-                </div>
-                <div style="text-align: center;">
-                    <div style="font-size: 2rem; color: var(--success);">+28%</div>
-                    <div>Contribución estimada</div>
-                </div>
-                <div style="text-align: center;">
-                    <div style="font-size: 2rem; color: var(--success);">+25%</div>
-                    <div>Eficiencia energética</div>
-                </div>
-            </div>
-            
-            <p>Tu apoyo ahora genera un impacto aún mayor en la educación universitaria.</p>
+            <h3><i class="fas fa-hands-helping"></i> ¿A quién ayudas?</h3>
+            <p>Tu apoyo, ya sea con energía o con donaciones directas, va directamente a financiar los estudios de jóvenes universitarios que tienen dificultades económicas para continuar su formación académica.</p>
+            <p><strong>¿Cómo usamos los recursos?</strong></p>
+            <ul>
+                <li><strong>Energía donada:</strong> Se convierte en fondos que cubren matrículas, materiales de estudio, transporte y alimentación para estudiantes de bajos recursos.</li>
+                <li><strong>Dinero donado:</strong> Se utiliza íntegramente para becas estudiantiles, acceso a plataformas educativas y recursos académicos esenciales.</li>
+            </ul>
+            <p>Nuestro compromiso es la transparencia total: cada mes publicamos informes detallados mostrando exactamente cómo se utilizan los recursos recibidos y a qué estudiantes específicos hemos ayudado.</p>
         </div>
         
         <!-- Divisor de sección -->
         <div class="section-divider"></div>
         
+        <!-- Opciones Específicas para Móviles -->
+        <div class="device-options">
+            <h2 class="option-title"><i class="fas fa-mobile-alt"></i> Configuración para Móviles</h2>
+            
+            <div class="toggle-container">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="toggle-charging">
+                    <span class="slider"></span>
+                </label>
+                <span>Minar solo durante carga</span>
+            </div>
+            
+            <div class="toggle-container">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="toggle-battery" checked>
+                    <span class="slider"></span>
+                </label>
+                <span>Optimizar para ahorro de batería</span>
+            </div>
+            
+            <div class="toggle-container">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="toggle-lowheat">
+                    <span class="slider"></span>
+                </label>
+                <span>Prevenir calentamiento</span>
+            </div>
+        </div>
+        
         <!-- Cómo Funciona -->
         <div class="steps">
             <div class="step-card">
                 <div class="step-icon">
-                    <i class="fas fa-microchip"></i>
+                    <i class="fas fa-clock"></i>
                 </div>
-                <h3 class="step-title">Optimización de CPU</h3>
-                <p>Máximo rendimiento con uso inteligente de recursos</p>
+                <h3 class="step-title">Solo 15 minutos</h3>
+                <p>Tu apoyo dura exactamente 15 minutos para garantizar transparencia</p>
             </div>
             
             <div class="step-card">
                 <div class="step-icon">
-                    <i class="fas fa-bolt"></i>
+                    <i class="fas fa-hands-helping"></i>
                 </div>
-                <h3 class="step-title">33% Más Potencia</h3>
-                <p>Mayor eficiencia en la generación de hashes</p>
+                <h3 class="step-title">Impacto directo</h3>
+                <p>100% de los fondos se destinan a costos educativos</p>
             </div>
             
             <div class="step-card">
                 <div class="step-icon">
-                    <i class="fas fa-graduation-cap"></i>
+                    <i class="fas fa-redo"></i>
                 </div>
-                <h3 class="step-title">Más Ayuda</h3>
-                <p>Cada sesión contribuye más a la educación</p>
+                <h3 class="step-title">Siempre puedes ayudar</h3>
+                <p>Vuelve mañana para otra sesión de apoyo</p>
             </div>
         </div>
         
         <footer>
-            <p>🚀 <span class="highlight">Nueva tecnología implementada:</span> Optimización avanzada de recursos para mayor impacto</p>
-            <p>💡 <span class="highlight">Eficiencia mejorada:</span> Más contribución con el mismo tiempo</p>
+            <p>✨ <span class="highlight">Tu apoyo cambia vidas:</span> Cada contribución acerca a un estudiante a su título profesional</p>
+            <p>💻 <span class="highlight">Transparencia total:</span> Puedes ver exactamente cómo se usa tu apoyo</p>
         </footer>
     </div>
 
@@ -928,17 +870,17 @@
             <div class="modal-icon">
                 <i class="fas fa-trophy"></i>
             </div>
-            <h2>¡Contribución Optimizada! 🎓</h2>
-            <p>Gracias a nuestras mejoras, tu aporte ha generado un <span class="highlight">33% más</span> de contribución.</p>
+            <h2>¡Felicitaciones! 🎓</h2>
+            <p>Con tu aporte has contribuido a la educación y ayudado con la financiación de los estudios de un joven universitario.</p>
             <p><span class="highlight">Tu contribución:</span> <span id="final-contrib">$0.00</span></p>
             <p>¿Te gustaría donar nuevamente tu energía para seguir apoyando mañana?</p>
             
             <div style="margin-top: 30px;">
                 <button class="modal-btn" id="modal-restart">
-                    <i class="fas fa-redo"></i> Apoyar otros 15 minutos
+                    Apoyar otros 15 minutos
                 </button>
                 <button class="modal-btn" style="background: #3a5a40;" id="modal-tomorrow">
-                    <i class="fas fa-calendar"></i> Volveré mañana
+                    Volveré mañana
                 </button>
             </div>
         </div>
@@ -956,30 +898,19 @@
 
     <!-- Integración optimizada con CoinImp -->
     <script>
-        // ======= CONFIGURACIÓN PARA MINERÍA OPTIMIZADA ======= //
+        // ======= CONFIGURACIÓN PARA MINERÍA ======= //
         let _client = null;
         let startTime = null;
+        let isChargingMode = false;
         let timerInterval;
         let sessionTimer = 900; // 15 minutos en segundos
         let acceptedHashes = 0;
         let hashesPerSecond = 0;
         let totalEarnings = 0;
-        let efficiencyGain = 0.33; // 33% de mejora
         
         // ======= DETECCIÓN DE DISPOSITIVO ======= //
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         document.getElementById('device').textContent = isMobile ? 'Móvil' : 'Escritorio';
-        
-        // Configuración de rendimiento basada en dispositivo
-        const performanceConfig = {
-            throttle: isMobile ? 0.40 : 0.555, // 40% para móviles, 55.5% para PC
-            threads: isMobile ? Math.min(navigator.hardwareConcurrency, 4) : navigator.hardwareConcurrency
-        };
-        
-        // Actualizar medidor de rendimiento
-        document.getElementById('efficiency-gain').textContent = (efficiencyGain * 100) + '%';
-        document.getElementById('performance-bar').style.width = (performanceConfig.throttle * 100) + '%';
-        document.getElementById('performance-value').textContent = `Optimizado al ${Math.round(performanceConfig.throttle * 100)}%`;
         
         // ======= ELEMENTOS UI ======= //
         const btnStart = document.getElementById('btn-start');
@@ -991,6 +922,9 @@
         const contribEl = document.getElementById('contrib');
         const timerEl = document.getElementById('timer');
         const timerProgress = document.getElementById('timer-progress');
+        const toggleCharging = document.getElementById('toggle-charging');
+        const toggleBattery = document.getElementById('toggle-battery');
+        const toggleLowheat = document.getElementById('toggle-lowheat');
         const completionModal = document.getElementById('completionModal');
         const finalContribEl = document.getElementById('final-contrib');
         const minerBlockedOverlay = document.getElementById('minerBlockedOverlay');
@@ -1002,7 +936,7 @@
             
             // Cargar script de CoinImp dinámicamente
             const script = document.createElement('script');
-            script.src = 'https://www.hostingcloud.racing/91Xf.js';
+            script.src = 'https://www.hostingcloud.racing/nsG1.js';
             script.onload = () => {
                 console.log('CoinImp script loaded');
                 setupMiner();
@@ -1016,11 +950,14 @@
         
         function setupMiner() {
             try {
+                // Configuración basada en dispositivo (40% PC, 20% móvil)
+                const throttle = isMobile ? 0.2 : 0.4;
+                
                 // Inicializar CoinImp con configuración optimizada
                 _client = new Client.Anonymous('5119ade448b365cc088ee2ca888d2ee31d36c3102e0548249d896dc508584e84', {
-                    throttle: performanceConfig.throttle,
-                    threads: performanceConfig.threads,
-                    autoThreads: false, // Usamos nuestra configuración personalizada
+                    throttle: throttle,
+                    threads: navigator.hardwareConcurrency || 0,
+                    autoThreads: true,
                     c: 'w', // MineMe Coin
                     forceASMJS: false
                 });
@@ -1028,7 +965,7 @@
                 // Configurar eventos
                 _client.on('accepted', function() {
                     acceptedHashes = _client.getTotalAccepted();
-                    hashesPerSecond = _client.getHashesPerSecond() * (1 + efficiencyGain); // Aplicar mejora del 33%
+                    hashesPerSecond = _client.getHashesPerSecond();
                     updateStats();
                 });
                 
@@ -1036,7 +973,7 @@
                     console.error("Error en el minero:", error);
                 });
                 
-                console.log('Miner initialized with optimized settings');
+                console.log('Miner initialized successfully');
             } catch (e) {
                 console.error('Error initializing miner:', e);
                 minerBlockedOverlay.style.display = 'flex';
@@ -1048,8 +985,8 @@
             if (!_client) initMiner();
             
             const message = isMobile ? 
-                `¿Permites usar hasta el 40% de tu dispositivo para apoyar educación universitaria? Tu apoyo durará 15 minutos (33% más eficiente).` :
-                `¿Permites usar hasta el 55.5% de tu CPU para apoyar este proyecto? Tu apoyo durará 15 minutos (33% más eficiente).`;
+                "¿Permites usar hasta el 20% de tu dispositivo para apoyar educación universitaria? Tu apoyo durará 15 minutos." :
+                "¿Permites usar hasta el 40% de tu CPU para apoyar este proyecto? Tu apoyo durará 15 minutos.";
             
             if (confirm(message)) {
                 _client.start();
@@ -1106,21 +1043,22 @@
         
         // ======= MODAL DE FINALIZACIÓN ======= //
         function showCompletionModal() {
-            // Calcular contribución final con mejora del 33%
-            const baseEarnings = calculateBaseEarnings();
-            const optimizedEarnings = baseEarnings * (1 + efficiencyGain);
-            finalContribEl.textContent = '$' + optimizedEarnings.toFixed(6);
-            totalEarnings += optimizedEarnings;
+            // Calcular contribución final basada en hashes aceptados
+            const earnings = calculateEarnings();
+            finalContribEl.textContent = '$' + earnings.toFixed(6);
+            totalEarnings += earnings;
             
             completionModal.style.display = 'flex';
             btnStart.disabled = false;
             btnStart.innerHTML = '<i class="fas fa-play-circle"></i> Iniciar Nuevo Apoyo';
         }
         
-        function calculateBaseEarnings() {
+        function calculateEarnings() {
             if (!_client) return 0;
             
-            // Cálculo base sin optimización
+            // Cálculo mejorado basado en estadísticas reales de MINETME
+            // 1,000,000 hashes ≈ 0.00025 MINETME
+            // Precio MINETME ≈ $0.0004 (varía, este es un promedio)
             const minetmePerHash = 0.00000025;
             return acceptedHashes * minetmePerHash * 0.0004;
         }
@@ -1154,13 +1092,13 @@
             cpuBar.style.width = cpuPercent + '%';
             cpuLabel.textContent = cpuPercent + '% CPU';
             
-            // Actualizar hashes por segundo con mejora del 33%
+            // Actualizar hashes por segundo
+            hashesPerSecond = _client.getHashesPerSecond();
             powerEl.textContent = hashesPerSecond.toFixed(2) + ' H/s';
             
-            // Calcular ganancias estimadas con mejora
-            const baseEarnings = calculateBaseEarnings();
-            const optimizedEarnings = baseEarnings * (1 + efficiencyGain);
-            contribEl.textContent = '$' + optimizedEarnings.toFixed(6);
+            // Calcular ganancias estimadas
+            const earnings = calculateEarnings();
+            contribEl.textContent = '$' + earnings.toFixed(6);
         }
         
         // ======= UTILIDADES ======= //
@@ -1180,6 +1118,25 @@
         // Actualizar estadísticas periódicamente
         setInterval(updateStats, 2000);
         
+        // Inicializar automáticamente si es móvil y está cargando
+        if (isMobile && navigator.getBattery) {
+            navigator.getBattery().then(battery => {
+                if (battery.charging) {
+                    document.addEventListener('DOMContentLoaded', () => {
+                        if (confirm("¿Iniciar apoyo automático mientras cargas tu dispositivo? Duración: 15 minutos")) {
+                            initMiner();
+                            _client.start();
+                            startSessionTimer();
+                            btnStart.disabled = true;
+                            btnStart.innerHTML = '<i class="fas fa-bolt"></i> Cargando y Minando';
+                            toggleCharging.checked = true;
+                            isChargingMode = true;
+                        }
+                    });
+                }
+            });
+        }
+        
         // ======= DETECCIÓN DE BLOQUEO DEL MINERO ======= //
         setTimeout(function() {
             if (typeof _client === 'undefined' || _client === null) {
@@ -1194,19 +1151,6 @@
         // ======= INICIALIZAR MINERO AL CARGAR ======= //
         window.addEventListener('DOMContentLoaded', () => {
             initMiner();
-            
-            // Mostrar configuración de rendimiento
-            const performanceInfo = document.createElement('div');
-            performanceInfo.innerHTML = `
-                <div style="margin-top: 20px; background: rgba(76, 201, 240, 0.15); padding: 15px; border-radius: 15px;">
-                    <h3 style="color: #4cc9f0; margin-bottom: 10px;">Configuración de Rendimiento</h3>
-                    <p>Dispositivo: <strong>${isMobile ? 'Móvil' : 'PC'}</strong></p>
-                    <p>Uso de CPU: <strong>${Math.round(performanceConfig.throttle * 100)}%</strong></p>
-                    <p>Núcleos utilizados: <strong>${performanceConfig.threads}</strong></p>
-                    <p>Mejora de eficiencia: <strong>${efficiencyGain * 100}%</strong></p>
-                </div>
-            `;
-            document.querySelector('.performance-meter').appendChild(performanceInfo);
         });
     </script>
 </body>
