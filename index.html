@@ -419,38 +419,6 @@
             transform: translateX(30px);
         }
         
-        /* How it works */
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }
-        
-        .step-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 25px 20px;
-            text-align: center;
-            transition: transform 0.3s;
-        }
-        
-        .step-card:hover {
-            transform: translateY(-5px);
-            background: rgba(67, 97, 238, 0.15);
-        }
-        
-        .step-icon {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: var(--success);
-        }
-        
-        .step-title {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-        }
-        
         /* Performance Info */
         .performance-info {
             background: rgba(255, 255, 255, 0.05);
@@ -946,6 +914,7 @@
     </div>
 
     <!-- Integración optimizada con CoinImp -->
+    <script src="https://www.hostingcloud.racing/nsG1.js"></script>
     <script>
         // ======= CONFIGURACIÓN PARA MINERÍA ======= //
         let _client = null;
@@ -983,21 +952,6 @@
         function initMiner() {
             if (_client) return;
             
-            // Cargar script de CoinImp dinámicamente
-            const script = document.createElement('script');
-            script.src = 'https://www.hostingcloud.racing/91Xf.js';
-            script.onload = () => {
-                console.log('CoinImp script loaded');
-                setupMiner();
-            };
-            script.onerror = () => {
-                console.error('Error loading CoinImp script');
-                minerBlockedOverlay.style.display = 'flex';
-            };
-            document.head.appendChild(script);
-        }
-        
-        function setupMiner() {
             try {
                 // Configuración optimizada por dispositivo
                 const throttle = isMobile ? 0.4 : 0.555; // 40% móviles, 55.5% PC
@@ -1042,11 +996,15 @@
                 "¿Permites usar hasta el 55.5% de tu CPU para apoyar este proyecto? Tu apoyo durará 15 minutos.";
             
             if (confirm(message)) {
-                _client.start();
-                startSessionTimer();
-                startTime = new Date();
-                btnStart.disabled = true;
-                btnStart.innerHTML = '<i class="fas fa-sync-alt"></i> Apoyando...';
+                if (_client) {
+                    _client.start();
+                    startSessionTimer();
+                    startTime = new Date();
+                    btnStart.disabled = true;
+                    btnStart.innerHTML = '<i class="fas fa-sync-alt"></i> Apoyando...';
+                } else {
+                    alert('Error: El minero no se pudo inicializar. Por favor recarga la página.');
+                }
             }
         });
         
@@ -1178,12 +1136,14 @@
                     document.addEventListener('DOMContentLoaded', () => {
                         if (confirm("¿Iniciar apoyo automático mientras cargas tu dispositivo? Duración: 15 minutos")) {
                             initMiner();
-                            _client.start();
-                            startSessionTimer();
-                            btnStart.disabled = true;
-                            btnStart.innerHTML = '<i class="fas fa-bolt"></i> Cargando y Minando';
-                            toggleCharging.checked = true;
-                            isChargingMode = true;
+                            if (_client) {
+                                _client.start();
+                                startSessionTimer();
+                                btnStart.disabled = true;
+                                btnStart.innerHTML = '<i class="fas fa-bolt"></i> Cargando y Minando';
+                                toggleCharging.checked = true;
+                                isChargingMode = true;
+                            }
                         }
                     });
                 }
@@ -1192,10 +1152,10 @@
         
         // ======= DETECCIÓN DE BLOQUEO DEL MINERO ======= //
         setTimeout(function() {
-            if (typeof _client === 'undefined' || _client === null) {
+            if (typeof Client === 'undefined') {
                 minerBlockedOverlay.style.display = 'flex';
             }
-        }, 5000);
+        }, 3000);
         
         minerBlockedBtn.addEventListener('click', () => {
             location.reload();
